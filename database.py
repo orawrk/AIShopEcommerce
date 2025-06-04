@@ -238,10 +238,11 @@ def create_order(user_id, cart_items, total_amount):
         conn = get_connection()
         cursor = conn.cursor()
         
-        # Create order
+        # Create order with timestamp
+        current_time = datetime.now().isoformat()
         cursor.execute(
-            "INSERT INTO orders (user_id, total_amount) VALUES (?, ?)",
-            (user_id, total_amount)
+            "INSERT INTO orders (user_id, total_amount, created_at) VALUES (?, ?, ?)",
+            (user_id, total_amount, current_time)
         )
         order_id = cursor.lastrowid
         
@@ -332,6 +333,37 @@ def update_order_status(order_id, new_status):
     except Exception as e:
         logger.error(f"Error updating order status: {e}")
         return False
+
+def auto_update_order_status():
+    """Automatically update orders from Processing to Delivered after 20 seconds"""
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        # Get processing orders older than 20 seconds
+        cursor.execute('''
+            SELECT id, created_at FROM orders 
+            WHERE status = 'Processing' 
+            AND datetime(created_at) <= datetime('now', '-20 seconds')
+        ''')
+        
+        old_orders = cursor.fetchall()
+        
+        # Update status to Delivered
+        for order_id, created_at in old_orders:
+            cursor.execute(
+                "UPDATE orders SET status = 'Delivered' WHERE id = ?",
+                (order_id,)
+            )
+        
+        conn.commit()
+        conn.close()
+        
+        return len(old_orders)
+        
+    except Exception as e:
+        logger.error(f"Error auto-updating order status: {e}")
+        return 0
 
 def update_inventory(product_id, new_stock):
     """Update product inventory"""

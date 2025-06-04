@@ -6,10 +6,12 @@ import requests
 from datetime import datetime, timedelta
 import plotly.express as px
 import plotly.graph_objects as go
-from database import init_database, get_products, add_to_cart, get_cart_items, create_order, get_user_orders, update_inventory, get_all_orders, update_order_status
+from database import init_database, get_products, add_to_cart, get_cart_items, create_order, get_user_orders, update_inventory, get_all_orders, update_order_status, auto_update_order_status
 from chatbot import get_chatbot_response
 from ml_models import load_user_behavior_model, predict_user_behavior
 import logging
+import time
+import threading
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -238,30 +240,63 @@ def show_cart_page():
 def show_orders_page():
     st.header("📦 Order History")
     
+    # Auto-update order statuses
+    updated_count = auto_update_order_status()
+    if updated_count > 0:
+        st.success(f"🔄 {updated_count} order(s) automatically updated to Delivered status")
+    
     orders = get_user_orders(st.session_state.user_id)
     
     if not orders:
         st.info("No orders found.")
         return
     
+    # Add auto-refresh notice
+    st.info("🔄 Orders automatically close after 20 seconds. This page refreshes to show status updates.")
+    
     for order in orders:
         order_id, order_date, total_amount, status = order
         
-        with st.expander(f"Order #{order_id} - {order_date} - ${total_amount:.2f}"):
+        # Calculate seconds since order creation
+        order_time = datetime.fromisoformat(order_date)
+        current_time = datetime.now()
+        seconds_elapsed = (current_time - order_time).total_seconds()
+        
+        with st.expander(f"Order #{order_id} - {order_date} - ${total_amount:.2f} - {status}"):
             st.write(f"**Status:** {status}")
             st.write(f"**Date:** {order_date}")
             st.write(f"**Total:** ${total_amount:.2f}")
             
-            # Order tracking simulation
+            # Show countdown for processing orders
+            if status == "Processing" and seconds_elapsed < 20:
+                remaining_seconds = int(20 - seconds_elapsed)
+                st.warning(f"⏱️ Order will auto-close in {remaining_seconds} seconds")
+                
+                # Auto-refresh every 2 seconds for processing orders
+                time.sleep(1)
+                st.rerun()
+            
+            # Order tracking with real-time status
             if status == "Processing":
-                st.progress(0.3)
-                st.write("📦 Order is being prepared")
+                if seconds_elapsed >= 20:
+                    st.info("🔄 Updating status to Delivered...")
+                    st.rerun()
+                else:
+                    progress_value = min(0.5, seconds_elapsed / 40)
+                    st.progress(progress_value)
+                    st.write("📦 Order is being prepared")
             elif status == "Shipped":
                 st.progress(0.7)
                 st.write("🚚 Order is on the way")
             elif status == "Delivered":
                 st.progress(1.0)
-                st.write("✅ Order delivered")
+                st.success("✅ Order closed/delivered")
+            elif status == "Cancelled":
+                st.error("❌ Order cancelled")
+    
+    # Auto-refresh button
+    if st.button("🔄 Check for Status Updates"):
+        st.rerun()
 
 def show_chat_page():
     st.header("🤖 AI Customer Support")
