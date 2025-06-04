@@ -4,8 +4,8 @@ Product model definition
 
 from sqlalchemy import Column, String, Float, Integer, Text, Enum
 from sqlalchemy.orm import relationship
-from .base import BaseModel
-from .enums import ProductCategoryEnum
+from models.base import BaseModel
+from models.enums import ProductCategoryEnum
 
 
 class Product(BaseModel):
@@ -22,10 +22,7 @@ class Product(BaseModel):
     sku = Column(String(100), unique=True, nullable=False, index=True)
     is_active = Column(Integer, default=1, nullable=False)
     
-    # Relationships
-    order_items = relationship("OrderItem", back_populates="product", lazy="dynamic")
-    cart_items = relationship("CartItem", back_populates="product", lazy="dynamic")
-    user_behaviors = relationship("UserBehavior", back_populates="product", lazy="dynamic")
+    # Relationships will be defined after all models are created
     
     def __repr__(self):
         return f"<Product(name='{self.name}', price={self.price}, category='{self.category}')>"
