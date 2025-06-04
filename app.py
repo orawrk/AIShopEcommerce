@@ -113,7 +113,7 @@ def show_products_page():
             rec_cols = st.columns(min(len(recommendations), 3))
             for idx, rec in enumerate(recommendations[:3]):
                 with rec_cols[idx]:
-                    display_product_card(rec)
+                    display_product_card(rec, "rec")
         else:
             st.info("Browse more products to get personalized recommendations!")
             
@@ -121,7 +121,7 @@ def show_products_page():
         logger.error(f"Error loading products: {e}")
         st.error("Failed to load products. Please try again later.")
 
-def display_product_card(product):
+def display_product_card(product, card_type="main"):
     """Display a product card with details and add to cart button"""
     product_id, name, description, price, category, stock, rating = product
     
@@ -137,13 +137,13 @@ def display_product_card(product):
     else:
         st.write(description)
     
-    # Add to cart functionality
+    # Add to cart functionality with unique keys
     col1, col2 = st.columns(2)
     with col1:
-        quantity = st.number_input(f"Quantity", min_value=1, max_value=stock, value=1, key=f"qty_{product_id}")
+        quantity = st.number_input(f"Quantity", min_value=1, max_value=stock, value=1, key=f"{card_type}_qty_{product_id}")
     
     with col2:
-        if st.button(f"Add to Cart", key=f"add_{product_id}"):
+        if st.button(f"Add to Cart", key=f"{card_type}_add_{product_id}"):
             if stock >= quantity:
                 success = add_to_cart(st.session_state.user_id, product_id, quantity)
                 if success:
@@ -372,12 +372,13 @@ def show_analytics_page():
     st.subheader("📈 User Activity Trends")
     
     # Generate sample activity data for visualization
+    import numpy as np
     dates = pd.date_range(start='2024-01-01', end='2024-12-31', freq='D')
     activity_data = pd.DataFrame({
         'date': dates,
-        'orders': [max(0, int(pd.np.random.normal(2, 1))) for _ in dates],
-        'page_views': [max(0, int(pd.np.random.normal(15, 5))) for _ in dates],
-        'time_spent': [max(0, pd.np.random.normal(25, 10)) for _ in dates]
+        'orders': [max(0, int(np.random.normal(2, 1))) for _ in dates],
+        'page_views': [max(0, int(np.random.normal(15, 5))) for _ in dates],
+        'time_spent': [max(0, np.random.normal(25, 10)) for _ in dates]
     })
     
     # Activity charts
@@ -408,7 +409,8 @@ def show_admin_dashboard():
         products = get_products()
         
         if products:
-            df = pd.DataFrame(products, columns=['ID', 'Name', 'Description', 'Price', 'Category', 'Stock', 'Rating'])
+            df = pd.DataFrame(products)
+            df.columns = ['ID', 'Name', 'Description', 'Price', 'Category', 'Stock', 'Rating']
             
             # Display products table
             st.dataframe(df, use_container_width=True)
