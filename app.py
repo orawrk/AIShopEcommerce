@@ -6,7 +6,7 @@ import requests
 from datetime import datetime, timedelta
 import plotly.express as px
 import plotly.graph_objects as go
-from database import init_database, get_products, add_to_cart, get_cart_items, create_order, get_user_orders, update_inventory
+from database import init_database, get_products, add_to_cart, get_cart_items, create_order, get_user_orders, update_inventory, get_all_orders, update_order_status
 from chatbot import get_chatbot_response
 from ml_models import load_user_behavior_model, predict_user_behavior
 import logging
@@ -466,19 +466,69 @@ def show_admin_dashboard():
     
     with tab2:
         st.subheader("📋 Order Management")
-        st.info("Order management functionality would be implemented here.")
         
-        # Sample order statistics
-        col1, col2, col3, col4 = st.columns(4)
+        # Get all orders
+        all_orders = get_all_orders()
         
-        with col1:
-            st.metric("Total Orders", "1,234")
-        with col2:
-            st.metric("Pending Orders", "56")
-        with col3:
-            st.metric("Revenue Today", "$2,456")
-        with col4:
-            st.metric("Revenue This Month", "$45,678")
+        if all_orders:
+            # Order statistics
+            pending_orders = [o for o in all_orders if o[4] == 'Processing']
+            shipped_orders = [o for o in all_orders if o[4] == 'Shipped']
+            delivered_orders = [o for o in all_orders if o[4] == 'Delivered']
+            cancelled_orders = [o for o in all_orders if o[4] == 'Cancelled']
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("Total Orders", len(all_orders))
+            with col2:
+                st.metric("Pending Orders", len(pending_orders))
+            with col3:
+                st.metric("Shipped Orders", len(shipped_orders))
+            with col4:
+                st.metric("Delivered Orders", len(delivered_orders))
+            
+            st.markdown("---")
+            
+            # Order management table
+            st.subheader("📦 Manage Orders")
+            
+            for order in all_orders[:10]:  # Show latest 10 orders
+                order_id, user_id, order_date, total_amount, status = order
+                
+                with st.expander(f"Order #{order_id} - User {user_id} - ${total_amount:.2f} - {status}"):
+                    col1, col2, col3 = st.columns([2, 1, 1])
+                    
+                    with col1:
+                        st.write(f"**Order Date:** {order_date}")
+                        st.write(f"**Customer:** User {user_id}")
+                        st.write(f"**Amount:** ${total_amount:.2f}")
+                        st.write(f"**Current Status:** {status}")
+                    
+                    with col2:
+                        new_status = st.selectbox(
+                            "Update Status",
+                            ["Processing", "Shipped", "Delivered", "Cancelled"],
+                            index=["Processing", "Shipped", "Delivered", "Cancelled"].index(status),
+                            key=f"status_{order_id}"
+                        )
+                    
+                    with col3:
+                        if st.button("Update Order", key=f"update_{order_id}"):
+                            if update_order_status(order_id, new_status):
+                                st.success(f"Order #{order_id} updated to {new_status}")
+                                st.rerun()
+                            else:
+                                st.error("Failed to update order")
+                        
+                        if status != "Cancelled" and st.button("Close Order", key=f"close_{order_id}"):
+                            if update_order_status(order_id, "Delivered"):
+                                st.success(f"Order #{order_id} closed successfully")
+                                st.rerun()
+                            else:
+                                st.error("Failed to close order")
+        else:
+            st.info("No orders found in the system.")
     
     with tab3:
         st.subheader("👥 User Analytics Overview")

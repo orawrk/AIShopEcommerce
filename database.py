@@ -294,6 +294,45 @@ def get_user_orders(user_id):
         logger.error(f"Error fetching orders: {e}")
         return []
 
+def get_all_orders():
+    """Get all orders for admin management"""
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "SELECT id, user_id, created_at, total_amount, status FROM orders ORDER BY created_at DESC"
+        )
+        
+        orders = cursor.fetchall()
+        conn.close()
+        
+        return orders
+        
+    except Exception as e:
+        logger.error(f"Error fetching all orders: {e}")
+        return []
+
+def update_order_status(order_id, new_status):
+    """Update order status"""
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "UPDATE orders SET status = ? WHERE id = ?",
+            (new_status, order_id)
+        )
+        
+        conn.commit()
+        conn.close()
+        
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error updating order status: {e}")
+        return False
+
 def update_inventory(product_id, new_stock):
     """Update product inventory"""
     try:
