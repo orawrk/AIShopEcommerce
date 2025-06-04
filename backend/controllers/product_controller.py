@@ -5,9 +5,9 @@ Product controller for handling HTTP requests
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
-from ..config.database import get_database
-from ..services.product_service import ProductService
-from ..schemas.product_schemas import (
+from config.database import get_database
+from services.product_service import ProductService
+from schemas.product_schemas import (
     ProductCreateSchema,
     ProductUpdateSchema,
     ProductResponseSchema,

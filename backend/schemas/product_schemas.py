@@ -5,7 +5,7 @@ Product-related Pydantic schemas for request/response validation
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
-from ..models.enums import ProductCategoryEnum, ProductSortByEnum, SortOrderEnum
+from models.enums import ProductCategoryEnum, ProductSortByEnum, SortOrderEnum
 
 
 class ProductBaseSchema(BaseModel):

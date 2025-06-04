@@ -54,7 +54,7 @@ async def test_connection():
     """Test database connection"""
     try:
         with engine.connect() as connection:
-            connection.execute("SELECT 1")
+            connection.execute(text("SELECT 1"))
         logger.info("Database connection successful")
         return True
     except SQLAlchemyError as e:

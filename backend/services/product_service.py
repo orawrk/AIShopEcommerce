@@ -5,9 +5,9 @@ Product service layer for business logic
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_
-from ..models.product import Product
-from ..models.enums import ProductCategoryEnum, ProductSortByEnum, SortOrderEnum
-from ..schemas.product_schemas import ProductCreateSchema, ProductUpdateSchema, ProductSearchSchema
+from models.product import Product
+from models.enums import ProductCategoryEnum, ProductSortByEnum, SortOrderEnum
+from schemas.product_schemas import ProductCreateSchema, ProductUpdateSchema, ProductSearchSchema
 import uuid
 
 

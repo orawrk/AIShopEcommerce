@@ -6,12 +6,13 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from config.settings import settings
 from config.database import create_tables
 from controllers.product_controller import ProductController
-from controllers.order_controller import OrderController
-from controllers.user_controller import UserController
-from controllers.cart_controller import CartController
 
 
 @asynccontextmanager
@@ -44,9 +45,6 @@ def create_app() -> FastAPI:
     
     # Include routers
     app.include_router(ProductController().router, prefix="/api/v1/products", tags=["products"])
-    app.include_router(OrderController().router, prefix="/api/v1/orders", tags=["orders"])
-    app.include_router(UserController().router, prefix="/api/v1/users", tags=["users"])
-    app.include_router(CartController().router, prefix="/api/v1/cart", tags=["cart"])
     
     @app.get("/")
     async def root():
@@ -66,6 +64,6 @@ if __name__ == "__main__":
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
+        port=8001,
         reload=True
     )
