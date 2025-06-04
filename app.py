@@ -41,21 +41,51 @@ def main():
     
     # Sidebar navigation
     with st.sidebar:
-        st.header("Navigation")
-        page = st.selectbox(
-            "Select Page",
-            ["Products", "Shopping Cart", "Orders", "AI Chat Support", "User Analytics", "Admin Dashboard"]
-        )
-        st.session_state.current_page = page
+        st.markdown("### 🛒 E-Commerce Platform")
+        st.markdown("---")
+        
+        # Navigation buttons
+        st.markdown("#### 🧭 Navigation")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🏪 Products", use_container_width=True):
+                st.session_state.current_page = "Products"
+            if st.button("📦 Orders", use_container_width=True):
+                st.session_state.current_page = "Orders"
+            if st.button("📊 Analytics", use_container_width=True):
+                st.session_state.current_page = "User Analytics"
+        
+        with col2:
+            if st.button("🛒 Cart", use_container_width=True):
+                st.session_state.current_page = "Shopping Cart"
+            if st.button("🤖 AI Chat", use_container_width=True):
+                st.session_state.current_page = "AI Chat Support"
+            if st.button("⚙️ Admin", use_container_width=True):
+                st.session_state.current_page = "Admin Dashboard"
+        
+        st.markdown("---")
         
         # User info section
-        st.header("User Info")
-        st.write(f"User ID: {st.session_state.user_id}")
+        st.markdown("#### 👤 User Info")
+        st.info(f"**User ID:** {st.session_state.user_id}")
         
         # Cart summary
         cart_items = get_cart_items(st.session_state.user_id)
         total_items = sum([item[3] for item in cart_items])
-        st.write(f"Cart Items: {total_items}")
+        cart_total = sum([item[2] * item[3] for item in cart_items])
+        
+        st.markdown("#### 🛒 Cart Summary")
+        if total_items > 0:
+            st.success(f"**Items:** {total_items}")
+            st.success(f"**Total:** ${cart_total:.2f}")
+        else:
+            st.warning("Cart is empty")
+        
+        st.markdown("---")
+        st.markdown("##### 🎯 Quick Actions")
+        if st.button("🔄 Refresh Data", use_container_width=True):
+            st.rerun()
     
     # Main content based on selected page
     if st.session_state.current_page == "Products":
