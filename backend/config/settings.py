@@ -11,12 +11,12 @@ class Settings(BaseSettings):
     """Application settings configuration"""
     
     # Database Configuration
-    DATABASE_URL: str = "mysql+pymysql://root:password@mysql:3306/ecommerce"
-    DATABASE_HOST: str = "mysql"
-    DATABASE_PORT: int = 3306
-    DATABASE_NAME: str = "ecommerce"
-    DATABASE_USER: str = "root"
-    DATABASE_PASSWORD: str = "password"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:password@localhost:5432/postgres")
+    DATABASE_HOST: str = os.getenv("PGHOST", "localhost")
+    DATABASE_PORT: int = int(os.getenv("PGPORT", 5432))
+    DATABASE_NAME: str = os.getenv("PGDATABASE", "postgres")
+    DATABASE_USER: str = os.getenv("PGUSER", "postgres")
+    DATABASE_PASSWORD: str = os.getenv("PGPASSWORD", "password")
     
     # API Configuration
     API_V1_PREFIX: str = "/api/v1"
