@@ -1,0 +1,51 @@
+name,description,price,category,stock,rating
+MacBook Pro 16-inch,High-performance laptop with M2 chip and stunning Retina display,2499.99,Electronics,15,4.8
+iPhone 15 Pro,Latest smartphone with advanced camera system and A17 Pro chip,999.99,Electronics,25,4.7
+Samsung 4K Smart TV,55-inch QLED display with smart features and HDR support,799.99,Electronics,10,4.5
+Gaming Laptop,High-end gaming laptop with RTX 4070 and 16GB RAM,1599.99,Electronics,8,4.6
+Wireless Headphones,Noise-cancelling over-ear headphones with 30-hour battery,199.99,Electronics,35,4.4
+Smart Watch,Fitness tracking smartwatch with heart rate monitor,299.99,Electronics,20,4.3
+Bluetooth Speaker,Portable wireless speaker with rich bass and waterproof design,89.99,Electronics,45,4.2
+Tablet,10-inch tablet perfect for work and entertainment,449.99,Electronics,18,4.4
+Digital Camera,Mirrorless camera with 24MP sensor and 4K video,899.99,Electronics,12,4.7
+Gaming Console,Next-gen gaming console with 1TB storage,499.99,Electronics,15,4.8
+Nike Air Max,Comfortable running shoes for daily training with Air Max technology,129.99,Sports,50,4.3
+Basketball,Official size basketball with superior grip,29.99,Sports,60,4.1
+Yoga Mat,Non-slip exercise mat for yoga and fitness routines,29.99,Sports,40,4.0
+Tennis Racket,Professional tennis racket with carbon fiber frame,149.99,Sports,25,4.4
+Gym Bag,Spacious gym bag with separate shoe compartment,59.99,Sports,30,4.2
+Protein Powder,High-quality whey protein for muscle building,49.99,Sports,35,4.5
+Water Bottle,Insulated water bottle that keeps drinks cold for 24 hours,24.99,Sports,80,4.3
+Exercise Bike,Stationary exercise bike with digital display,399.99,Sports,10,4.4
+Dumbbells Set,Adjustable dumbbells set for home workouts,199.99,Sports,15,4.6
+Resistance Bands,Set of 5 resistance bands for strength training,19.99,Sports,100,4.2
+Levi's Jeans,Classic blue denim jeans with comfortable fit,79.99,Clothing,30,4.2
+Cotton T-Shirt,Soft cotton t-shirt available in multiple colors,19.99,Clothing,75,4.0
+Winter Jacket,Warm winter jacket with water-resistant coating,159.99,Clothing,20,4.5
+Sneakers,Casual sneakers perfect for everyday wear,89.99,Clothing,40,4.3
+Dress Shirt,Professional dress shirt for business occasions,49.99,Clothing,35,4.1
+Hoodie,Comfortable pullover hoodie with front pocket,39.99,Clothing,50,4.2
+Formal Dress,Elegant dress suitable for special occasions,129.99,Clothing,15,4.4
+Leather Belt,Genuine leather belt with classic buckle,34.99,Clothing,45,4.3
+Socks Pack,Pack of 6 cotton socks in assorted colors,14.99,Clothing,90,4.0
+Summer Shorts,Lightweight shorts perfect for hot weather,29.99,Clothing,55,4.1
+Python Programming Book,Complete guide to Python programming for beginners and experts,49.99,Books,20,4.6
+Data Science Handbook,Comprehensive guide to data science and machine learning,59.99,Books,15,4.7
+Fiction Novel,Bestselling fiction novel with engaging storyline,16.99,Books,40,4.4
+Cookbook,Collection of healthy and delicious recipes,29.99,Books,25,4.3
+Biography,Inspiring biography of a successful entrepreneur,22.99,Books,30,4.5
+History Book,Detailed account of world history events,34.99,Books,18,4.4
+Self-Help Guide,Personal development book for success and happiness,19.99,Books,35,4.2
+Art Book,Beautiful collection of famous artwork and paintings,45.99,Books,12,4.6
+Science Textbook,Advanced physics textbook for college students,89.99,Books,10,4.5
+Poetry Collection,Anthology of contemporary poetry from various authors,24.99,Books,22,4.3
+Coffee Maker,Automatic drip coffee maker with programmable timer,89.99,Home & Garden,18,4.1
+Vacuum Cleaner,Powerful cordless vacuum cleaner for all floor types,249.99,Home & Garden,12,4.5
+Kitchen Knife Set,Professional chef knives with wooden block storage,149.99,Home & Garden,20,4.7
+Bed Sheets Set,Soft and breathable cotton bed sheets set,59.99,Home & Garden,30,4.2
+Garden Tools Set,Complete set of gardening tools for landscaping,79.99,Home & Garden,25,4.3
+Air Purifier,HEPA air purifier for clean and fresh indoor air,199.99,Home & Garden,15,4.6
+Dining Table,Elegant wooden dining table for 6 people,599.99,Home & Garden,5,4.4
+Lamp,Modern LED desk lamp with adjustable brightness,49.99,Home & Garden,40,4.1
+Storage Boxes,Set of 3 decorative storage boxes for organization,39.99,Home & Garden,35,4.0
+Indoor Plant,Low-maintenance indoor plant perfect for home decor,29.99,Home & Garden,50,4.2
