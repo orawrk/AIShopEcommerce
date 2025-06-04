@@ -82,10 +82,7 @@ def main():
         else:
             st.warning("Cart is empty")
         
-        st.markdown("---")
-        st.markdown("##### 🎯 Quick Actions")
-        if st.button("🔄 Refresh Data", use_container_width=True):
-            st.rerun()
+
     
     # Main content based on selected page
     if st.session_state.current_page == "Products":
