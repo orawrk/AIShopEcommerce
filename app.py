@@ -232,7 +232,9 @@ def show_cart_page():
             order_id = create_order(st.session_state.user_id, cart_items, total_amount)
             if order_id:
                 st.success(f"Order #{order_id} placed successfully!")
-                # Clear cart logic would go here
+                # Navigate to order history automatically
+                st.session_state.current_page = "Orders"
+                time.sleep(1)  # Brief pause to show success message
                 st.rerun()
             else:
                 st.error("Failed to place order. Please try again.")
