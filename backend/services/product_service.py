@@ -1,8 +1,27 @@
 """
-Product service layer for business logic
+Product Service Layer - Business Logic for Product Operations
+
+This service layer implements the core business logic for product management in the
+AI-powered e-commerce platform. It handles all product-related operations including
+CRUD operations, inventory management, search functionality, and data validation.
+
+Key Responsibilities:
+- Product creation, retrieval, updating, and deletion
+- Advanced search and filtering with pagination
+- Inventory management and stock tracking
+- Data validation and business rule enforcement
+- Integration with authentic product catalog
+
+Design Patterns:
+- Service Layer Pattern: Separates business logic from controllers
+- Repository Pattern: Abstracts data access operations
+- Static Methods: Stateless operations for better performance
+
+Author: AI E-Commerce Platform Team
+Version: 1.0.0
 """
 
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_
 from models.product import Product
@@ -12,7 +31,20 @@ import uuid
 
 
 class ProductService:
-    """Product service for business logic operations"""
+    """
+    Product service layer implementing comprehensive business logic for product operations.
+    
+    This class provides static methods for all product-related business operations,
+    ensuring data integrity, validation, and proper error handling. It serves as
+    the interface between the API controllers and the database models.
+    
+    Features:
+    - CRUD operations with validation
+    - Advanced search and filtering
+    - Pagination support
+    - Inventory management
+    - Business rule enforcement
+    """
     
     @staticmethod
     def create_product(db: Session, product_data: ProductCreateSchema) -> Product:
