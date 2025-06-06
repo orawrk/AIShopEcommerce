@@ -23,4 +23,5 @@ dependencies = [
     "streamlit>=1.45.1",
     "uvicorn>=0.34.3",
     "psycopg2-binary>=2.9.10",
+    "cryptography>=45.0.3",
 ]

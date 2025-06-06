@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     """Application settings configuration"""
     
     # Database Configuration
-    DATABASE_URL: str = "mysql+pymysql://root:password@localhost:3306/ecommerce"
+    DATABASE_URL: str = "sqlite:///./ecommerce_mysql_format.db"
     DATABASE_HOST: str = "localhost"
     DATABASE_PORT: int = 3306
     DATABASE_NAME: str = "ecommerce"
