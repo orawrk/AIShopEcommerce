@@ -1,262 +1,264 @@
 # AI-Powered E-Commerce Platform
 
-A comprehensive full-stack e-commerce platform built with Streamlit, featuring AI-powered customer support using ChatGPT API and machine learning models for user behavior prediction.
+A comprehensive e-commerce platform built with FastAPI backend, Streamlit frontend, and AI-powered features including ChatGPT integration for customer support and machine learning models for user behavior prediction.
 
 ## 🚀 Features
 
-### Core E-commerce Functionality
-- **Product Catalog**: Browse products with search, filtering, and sorting capabilities
-- **Shopping Cart**: Add/remove items, quantity management, and checkout process
-- **Order Management**: Track order history and status updates
-- **Inventory Management**: Admin dashboard for stock control
-- **User Authentication**: Basic user session management
+### Core E-Commerce Functionality
+- **Product Catalog**: Browse 18+ authentic products across 5 categories (Electronics, Clothing, Books, Home & Garden, Sports)
+- **Shopping Cart**: Add, update, and remove items with real-time inventory tracking
+- **Order Management**: Complete order processing with automatic status updates
+- **Inventory Management**: Real-time stock tracking and updates
 
 ### AI-Powered Features
-- **ChatGPT Customer Support**: 24/7 AI assistant for customer inquiries
-- **Product Recommendations**: AI-generated personalized product suggestions
-- **Customer Sentiment Analysis**: Analyze customer messages for better support
-- **Personalized Email Generation**: AI-generated marketing emails
+- **ChatGPT Customer Support**: Intelligent chatbot for customer queries and product recommendations
+- **Machine Learning Analytics**: User behavior prediction models for churn and spending forecasts
+- **Personalized Recommendations**: AI-driven product suggestions based on user preferences
+- **Sentiment Analysis**: Customer feedback analysis for improved service
 
-### Machine Learning Analytics
-- **Churn Prediction**: Predict likelihood of customer leaving (Random Forest Classifier)
-- **Spending Prediction**: Forecast customer monthly spending (Random Forest Regressor)
-- **User Behavior Analytics**: Comprehensive dashboard with predictive insights
-- **Real-time Predictions**: RESTful API for ML model predictions
+### Technical Architecture
+- **FastAPI Backend**: RESTful API with proper MVC architecture
+- **PostgreSQL Database**: Robust data storage with authentic product data
+- **Streamlit Frontend**: Interactive user interface
+- **Docker Support**: Containerized deployment ready
+- **ML Models**: Scikit-learn based predictive analytics
 
 ## 🛠 Technology Stack
 
+### Backend
+- **FastAPI**: Modern Python web framework
+- **SQLAlchemy**: ORM for database operations
+- **PostgreSQL**: Primary database
+- **Pydantic**: Data validation and serialization
+- **Uvicorn**: ASGI server
+
 ### Frontend
-- **Streamlit**: Interactive web application framework
-- **Plotly**: Data visualization and charts
+- **Streamlit**: Python-based web application framework
+- **Plotly**: Interactive data visualizations
 - **Pandas**: Data manipulation and analysis
 
-### Backend
-- **SQLite**: Database for product catalog, orders, and user behavior
-- **Flask**: RESTful API server for ML predictions
-- **Python**: Core application logic
-
-### AI & Machine Learning
-- **OpenAI GPT-4o**: Customer support chatbot and recommendations
-- **Scikit-learn**: Machine learning models (Random Forest)
-- **NumPy**: Numerical computing for data processing
+### AI/ML Components
+- **OpenAI GPT**: Customer support chatbot
+- **Scikit-learn**: Machine learning models
+- **NumPy/Pandas**: Data processing
 
 ### Infrastructure
-- **PostgreSQL**: Available for production deployment
-- **Replit**: Cloud hosting and development environment
+- **Docker**: Containerization
+- **Docker Compose**: Multi-service orchestration
 
-## 📊 Machine Learning Models
-
-### 1. Churn Prediction Model
-- **Algorithm**: Random Forest Classifier
-- **Purpose**: Predict probability of customer churn
-- **Features**: 
-  - Purchase count
-  - Cart activity
-  - Average order value
-  - Session duration
-  - Cart-to-purchase ratio
-  - Total customer value
-- **Output**: Churn probability (0-1)
-
-### 2. Spending Prediction Model
-- **Algorithm**: Random Forest Regressor
-- **Purpose**: Forecast monthly customer spending
-- **Features**: Same as churn model
-- **Output**: Predicted spending amount ($)
-
-### Training Dataset
-The models are trained on comprehensive user behavior data including:
-- User purchase history
-- Shopping cart interactions
-- Session duration metrics
-- Product browsing patterns
-- Order value trends
-
-Training data is stored in `data/user_behavior_training.csv` with 50+ user records containing realistic e-commerce behavior patterns.
-
-## 🗂 Project Structure
-
-```
-├── app.py                          # Main Streamlit application
-├── database.py                     # Database operations and setup
-├── chatbot.py                      # OpenAI GPT integration
-├── ml_models.py                    # Machine learning model implementation
-├── ml_api.py                       # Flask API for ML predictions
-├── utils.py                        # Utility functions
-├── data/
-│   ├── sample_products.csv         # Product catalog data
-│   └── user_behavior_training.csv  # ML training dataset
-├── .streamlit/
-│   └── config.toml                 # Streamlit configuration
-├── models/                         # Saved ML models (auto-generated)
-│   ├── churn_model.pkl
-│   ├── spending_model.pkl
-│   └── scaler.pkl
-└── README.md                       # This file
-```
-
-## 🚀 Getting Started
+## 📦 Installation
 
 ### Prerequisites
 - Python 3.11+
-- OpenAI API key (for AI features)
+- PostgreSQL
+- Docker (optional)
+- OpenAI API Key
 
-### Installation & Setup
+### Quick Start
 
-1. **Install Dependencies**
-   ```bash
-   pip install streamlit pandas scikit-learn flask plotly openai requests numpy
-   ```
-
-2. **Set Environment Variables**
-   ```bash
-   export OPENAI_API_KEY="your-openai-api-key"
-   ```
-
-3. **Initialize Database**
-   The application automatically creates and populates the SQLite database on first run.
-
-4. **Start the Application**
-   ```bash
-   # Terminal 1: Start Streamlit app
-   streamlit run app.py --server.port 5000
-   
-   # Terminal 2: Start ML API server
-   python ml_api.py
-   ```
-
-5. **Access the Application**
-   - Main App: http://localhost:5000
-   - ML API: http://localhost:8000
-
-## 📋 API Endpoints
-
-### ML Prediction API
-
-#### Health Check
-```http
-GET /health
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd ai-ecommerce-platform
 ```
 
-#### User Behavior Prediction
-```http
-POST /predict
-Content-Type: application/json
-
-{
-  "user_id": 1
-}
+2. **Install dependencies**
+```bash
+pip install -r requirements.txt
 ```
 
-**Response:**
-```json
-{
-  "churn_probability": 0.23,
-  "predicted_spending": 234.56
-}
+3. **Set up environment variables**
+```bash
+export DATABASE_URL="postgresql://username:password@localhost:5432/ecommerce"
+export OPENAI_API_KEY="your-openai-api-key"
 ```
 
-#### Model Retraining
-```http
-POST /retrain
+4. **Initialize database**
+```bash
+cd backend
+python seed_data.py
 ```
 
-#### Model Information
-```http
-GET /model-info
+5. **Start the services**
+```bash
+# Terminal 1 - FastAPI Backend (Port 8001)
+cd backend
+python main.py
+
+# Terminal 2 - ML API (Port 8000)
+python ml_api.py
+
+# Terminal 3 - Streamlit Frontend (Port 5000)
+streamlit run app.py --server.port 5000
 ```
 
-## 🎯 Usage Guide
+### Docker Deployment
 
-### Customer Features
-1. **Browse Products**: Use search and filters to find items
-2. **Shopping Cart**: Add items and proceed to checkout
-3. **Order Tracking**: View order history and status
-4. **AI Support**: Chat with AI assistant for help
-
-### Admin Features
-1. **Inventory Management**: Update product stock levels
-2. **User Analytics**: View ML-powered user insights
-3. **Order Management**: Monitor order statistics
-4. **ML Predictions**: Access churn and spending forecasts
-
-### AI Assistant Commands
-- "Track my order" - Get order status information
-- "What's your return policy?" - Learn about returns
-- "Recommend products" - Get personalized suggestions
-- General customer service inquiries
-
-## 🔧 Configuration
-
-### Streamlit Configuration (.streamlit/config.toml)
-```toml
-[server]
-headless = true
-address = "0.0.0.0"
-port = 5000
-
-[theme]
-base = "light"
+```bash
+docker-compose up -d
 ```
 
-### Database Configuration
-- SQLite database: `ecommerce.db`
-- Auto-initialization with sample data
-- PostgreSQL support available for production
+## 🔧 API Endpoints
 
-## 📊 Business Metrics
+### Products API
+- `GET /api/v1/products/` - List all products with pagination and filtering
+- `GET /api/v1/products/{id}` - Get specific product details
+- `POST /api/v1/products/` - Create new product (admin)
+- `PUT /api/v1/products/{id}` - Update product (admin)
+- `DELETE /api/v1/products/{id}` - Delete product (admin)
 
-The platform tracks key e-commerce metrics:
-- **Customer Acquisition**: New user registrations
-- **Customer Retention**: Churn rate and repeat purchases
-- **Revenue Analytics**: Order values and trends
-- **Product Performance**: Best sellers and inventory turnover
-- **Customer Engagement**: Session duration and cart abandonment
+### Machine Learning API
+- `GET /ml/health` - Health check
+- `POST /ml/predict` - User behavior prediction
+- `POST /ml/retrain` - Retrain models
+- `GET /ml/model-info` - Model information
 
-## 🛡 Error Handling
+## 📊 Database Schema
 
-The application includes comprehensive error handling:
-- **Database Failures**: Graceful fallbacks and user notifications
-- **API Timeouts**: Retry mechanisms and fallback responses
-- **ML Model Issues**: Default predictions when models unavailable
-- **User Input Validation**: Sanitization and format checking
+### Products Table
+```sql
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    stock_quantity INTEGER NOT NULL DEFAULT 0,
+    rating DECIMAL(3,2) NOT NULL DEFAULT 0.0,
+    image_url VARCHAR(500),
+    sku VARCHAR(100) UNIQUE NOT NULL,
+    is_active INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-## 🚀 Production Deployment
+## 🤖 AI Features
 
-For production deployment:
-1. Replace SQLite with PostgreSQL
-2. Configure environment variables securely
-3. Use production WSGI server (Gunicorn)
-4. Implement proper authentication
-5. Set up monitoring and logging
-6. Configure load balancing for ML API
+### ChatGPT Integration
+The platform includes intelligent customer support powered by OpenAI's GPT models:
+- Product recommendations
+- Customer query resolution
+- Sentiment analysis
+- Personalized email generation
 
-## 🔮 Future Enhancements
+### Machine Learning Models
+- **Churn Prediction**: Identifies users likely to stop purchasing
+- **Spending Prediction**: Forecasts user spending patterns
+- **Recommendation Engine**: Suggests relevant products
 
-- **Advanced Recommendations**: Collaborative filtering algorithms
-- **Real-time Chat**: WebSocket-based customer support
-- **Payment Integration**: Stripe/PayPal checkout
-- **Mobile App**: React Native companion app
-- **Advanced Analytics**: Time-series forecasting
-- **A/B Testing**: Feature experimentation framework
+## 🔒 Environment Variables
 
-## 📄 License
+```bash
+# Database
+DATABASE_URL=postgresql://username:password@localhost:5432/ecommerce
+PGHOST=localhost
+PGPORT=5432
+PGDATABASE=ecommerce
+PGUSER=username
+PGPASSWORD=password
 
-This project is built for educational and demonstration purposes. Please ensure proper licensing for production use.
+# OpenAI
+OPENAI_API_KEY=your-openai-api-key
+
+# Application
+DEBUG=True
+SECRET_KEY=your-secret-key
+```
+
+## 📁 Project Structure
+
+```
+ai-ecommerce-platform/
+├── backend/                 # FastAPI backend
+│   ├── config/             # Configuration files
+│   ├── controllers/        # API controllers
+│   ├── models/             # Database models
+│   ├── schemas/            # Pydantic schemas
+│   ├── services/           # Business logic
+│   └── main.py            # FastAPI application
+├── data/                   # Sample data files
+├── models/                 # Trained ML models
+├── app.py                  # Streamlit frontend
+├── ml_api.py              # ML API service
+├── chatbot.py             # ChatGPT integration
+├── database.py            # Database utilities
+├── ml_models.py           # ML model training
+├── utils.py               # Utility functions
+├── docker-compose.yml     # Docker configuration
+└── README.md              # This file
+```
+
+## 🚀 Deployment
+
+The platform is designed for easy deployment with multiple options:
+
+### Local Development
+- Run each service independently
+- SQLite for quick testing
+- PostgreSQL for production-like environment
+
+### Docker Deployment
+- Multi-container setup with Docker Compose
+- Includes PostgreSQL, FastAPI, and Streamlit services
+- Production-ready configuration
+
+### Cloud Deployment
+- Compatible with major cloud providers
+- Environment variable configuration
+- Scalable architecture
+
+## 🔄 Product Data
+
+The platform includes authentic product data from major brands:
+
+**Electronics**: iPhone 15 Pro, MacBook Air M3, Sony WH-1000XM5, Samsung QLED TV, Nintendo Switch OLED
+
+**Clothing**: Levi's 501 Jeans, Nike Air Force 1, Patagonia Jacket, Uniqlo Heattech
+
+**Books**: The Psychology of Money, Atomic Habits, Sapiens
+
+**Home & Garden**: Dyson V15 Vacuum, Instant Pot, Philips Hue
+
+**Sports**: Hydro Flask, Yeti Tumbler, Theraband Resistance Bands
+
+## 📈 Analytics Dashboard
+
+The admin dashboard provides comprehensive analytics:
+- Sales trends and revenue metrics
+- Inventory management
+- User behavior insights
+- ML model performance
+- Customer sentiment analysis
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## 📞 Support
+## 📄 License
 
-For technical support or questions about the AI features, please ensure you have:
-- Valid OpenAI API key configured
-- All dependencies properly installed
-- Both Streamlit and Flask servers running
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-The platform is designed to be robust and user-friendly, with clear error messages and fallback options when external services are unavailable.
+## 🆘 Support
+
+For support and questions:
+- Open an issue on GitHub
+- Check the documentation
+- Review the API endpoints
+
+## 🎯 Future Enhancements
+
+- User authentication and authorization
+- Payment gateway integration
+- Advanced recommendation algorithms
+- Mobile application
+- Multi-language support
+- Advanced analytics dashboard
+
+---
+
+**Note**: This platform demonstrates modern e-commerce architecture with AI integration. It uses authentic product data and real-world technologies suitable for production deployment.

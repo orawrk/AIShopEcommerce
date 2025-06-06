@@ -1,3 +1,29 @@
+"""
+AI-Powered E-Commerce Platform - Streamlit Frontend
+
+This is the main Streamlit application that provides a comprehensive e-commerce interface
+with AI-powered features including ChatGPT customer support and machine learning analytics.
+
+Key Features:
+- Product catalog with authentic brand products
+- Shopping cart and order management
+- AI-powered customer support chatbot
+- Machine learning analytics for user behavior prediction
+- Admin dashboard with inventory management
+- Real-time order tracking and analytics
+
+The application integrates with:
+- FastAPI backend (port 8001) for RESTful API operations
+- ML API (port 8000) for machine learning predictions
+- PostgreSQL database for data persistence
+- OpenAI API for intelligent customer support
+
+Author: AI E-Commerce Platform Team
+Version: 1.0.0
+Frontend Framework: Streamlit
+Port: 5000
+"""
+
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -6,37 +32,53 @@ import requests
 from datetime import datetime, timedelta
 import plotly.express as px
 import plotly.graph_objects as go
-from database import init_database, get_products, add_to_cart, get_cart_items, create_order, get_user_orders, update_inventory, get_all_orders, update_order_status, auto_update_order_status
+
+# Import custom modules for database operations and AI features
+from database import (
+    init_database, get_products, add_to_cart, get_cart_items, 
+    create_order, get_user_orders, update_inventory, get_all_orders, 
+    update_order_status, auto_update_order_status
+)
 from chatbot import get_chatbot_response
 from ml_models import load_user_behavior_model, predict_user_behavior
+
 import logging
 import time
 import threading
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure comprehensive logging for frontend operations
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
-# Initialize database on startup
+# Initialize database with authentic product data on application startup
+logger.info("Initializing AI E-Commerce Platform...")
 init_database()
+logger.info("Database initialization completed")
 
-# Page configuration
+# Configure Streamlit page settings for optimal user experience
 st.set_page_config(
-    page_title="AI E-Commerce Platform",
-    page_icon="🛒",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="AI E-Commerce Platform",  # Browser tab title
+    page_icon="🛒",                       # Browser tab icon
+    layout="wide",                        # Use full screen width
+    initial_sidebar_state="expanded"      # Show navigation sidebar by default
 )
 
-# Initialize session state
+# Initialize session state variables for user data persistence
+# Session state maintains user data across page interactions
 if 'user_id' not in st.session_state:
-    st.session_state.user_id = 1  # Default user for demo
+    st.session_state.user_id = 1  # Default user ID for demo purposes
+    
 if 'cart' not in st.session_state:
-    st.session_state.cart = []
+    st.session_state.cart = []  # User's shopping cart items
+    
 if 'current_page' not in st.session_state:
-    st.session_state.current_page = "Products"
+    st.session_state.current_page = "Products"  # Default landing page
+    
 if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = []
+    st.session_state.chat_history = []  # ChatGPT conversation history
 
 def main():
     st.title("🛒 AI-Powered E-Commerce Platform")

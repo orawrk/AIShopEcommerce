@@ -1,18 +1,55 @@
+"""
+Machine Learning API for AI-powered e-commerce platform.
+
+This Flask-based API service provides machine learning capabilities including:
+- User behavior prediction (churn and spending patterns)
+- Model retraining with latest data
+- Model health monitoring and status checks
+
+The API integrates with the main e-commerce platform to provide:
+- Real-time user behavior analytics
+- Predictive insights for business intelligence
+- Automated model maintenance and updates
+
+Author: AI E-Commerce Platform Team
+Version: 1.0.0
+Port: 8000
+"""
+
 from flask import Flask, request, jsonify
 import logging
 from ml_models import predict_user_behavior, retrain_models
 import os
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure comprehensive logging for ML operations
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
+# Initialize Flask application for ML API
 app = Flask(__name__)
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
-    return jsonify({"status": "healthy", "service": "ML API"})
+    """
+    Health check endpoint for monitoring ML API status.
+    
+    This endpoint is used by:
+    - Load balancers for health checks
+    - Monitoring systems for service status
+    - Integration tests for API availability
+    
+    Returns:
+        JSON response with service health status
+    """
+    return jsonify({
+        "status": "healthy", 
+        "service": "ML API",
+        "version": "1.0.0",
+        "capabilities": ["churn_prediction", "spending_prediction", "model_retraining"]
+    })
 
 @app.route('/predict', methods=['POST'])
 def predict():
