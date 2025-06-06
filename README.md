@@ -18,7 +18,7 @@ A comprehensive e-commerce platform built with FastAPI backend, Streamlit fronte
 
 ### Technical Architecture
 - **FastAPI Backend**: RESTful API with proper MVC architecture
-- **PostgreSQL Database**: Robust data storage with authentic product data
+- **MySQL Database**: Robust data storage with authentic product data
 - **Streamlit Frontend**: Interactive user interface
 - **Docker Support**: Containerized deployment ready
 - **ML Models**: Scikit-learn based predictive analytics
@@ -28,7 +28,7 @@ A comprehensive e-commerce platform built with FastAPI backend, Streamlit fronte
 ### Backend
 - **FastAPI**: Modern Python web framework
 - **SQLAlchemy**: ORM for database operations
-- **PostgreSQL**: Primary database
+- **MySQL**: Primary database
 - **Pydantic**: Data validation and serialization
 - **Uvicorn**: ASGI server
 

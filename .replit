@@ -28,6 +28,10 @@ args = "ML API"
 task = "workflow.run"
 args = "FastAPI Backend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "MySQL Database"
+
 [[workflows.workflow]]
 name = "Streamlit App"
 author = "agent"
@@ -55,6 +59,19 @@ task = "shell.exec"
 args = "cd backend && python main.py"
 waitForPort = 8001
 
+[[workflows.workflow]]
+name = "MySQL Database"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "mysqld --user=runner --datadir=/tmp/mysql_data --socket=/tmp/mysql.sock --port=3306 --bind-address=0.0.0.0"
+waitForPort = 3306
+
+[[ports]]
+localPort = 3306
+externalPort = 3002
+
 [[ports]]
 localPort = 5000
 externalPort = 80
@@ -66,3 +83,7 @@ externalPort = 8000
 [[ports]]
 localPort = 8001
 externalPort = 3000
+
+[[ports]]
+localPort = 33060
+externalPort = 3001

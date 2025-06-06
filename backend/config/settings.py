@@ -10,13 +10,13 @@ import os
 class Settings(BaseSettings):
     """Application settings configuration"""
     
-    # Database Configuration
-    DATABASE_URL: str = "sqlite:///./ecommerce_mysql_format.db"
-    DATABASE_HOST: str = "localhost"
-    DATABASE_PORT: int = 3306
-    DATABASE_NAME: str = "ecommerce"
-    DATABASE_USER: str = "root"
-    DATABASE_PASSWORD: str = "password"
+    # MySQL Database Configuration (using SQLite for development compatibility)
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./ecommerce_mysql.db")
+    DATABASE_HOST: str = os.getenv("DATABASE_HOST", "localhost")
+    DATABASE_PORT: int = int(os.getenv("DATABASE_PORT", "3306"))
+    DATABASE_NAME: str = os.getenv("DATABASE_NAME", "ecommerce")
+    DATABASE_USER: str = os.getenv("DATABASE_USER", "root")
+    DATABASE_PASSWORD: str = os.getenv("DATABASE_PASSWORD", "")
     
     # API Configuration
     API_V1_PREFIX: str = "/api/v1"
