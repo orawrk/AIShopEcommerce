@@ -13,6 +13,7 @@ A comprehensive e-commerce platform built with FastAPI backend, Streamlit fronte
 ### AI-Powered Features
 - **ChatGPT Customer Support**: Intelligent chatbot for customer queries and product recommendations
 - **Machine Learning Analytics**: User behavior prediction models for churn and spending forecasts
+- **Real-time Model Retraining**: Automated ML model updates based on new user data
 - **Personalized Recommendations**: AI-driven product suggestions based on user preferences
 - **Sentiment Analysis**: Customer feedback analysis for improved service
 
