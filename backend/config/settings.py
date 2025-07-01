@@ -10,8 +10,8 @@ import os
 class Settings(BaseSettings):
     """Application settings configuration"""
     
-    # MySQL Database Configuration (using SQLite for development compatibility)
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./ecommerce_mysql.db")
+    # MySQL Database Configuration
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost:3306/ecommerce?unix_socket=/tmp/mysql.sock")
     DATABASE_HOST: str = os.getenv("DATABASE_HOST", "localhost")
     DATABASE_PORT: int = int(os.getenv("DATABASE_PORT", "3306"))
     DATABASE_NAME: str = os.getenv("DATABASE_NAME", "ecommerce")

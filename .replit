@@ -65,7 +65,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "mysqld --user=runner --datadir=/tmp/mysql_data --socket=/tmp/mysql.sock --port=3306 --bind-address=0.0.0.0"
+args = "mysqld --datadir=/tmp/mysql_data --socket=/tmp/mysql.sock --port=3306 --user=runner"
 waitForPort = 3306
 
 [[ports]]

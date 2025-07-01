@@ -98,7 +98,9 @@ The application follows a microservices architecture with clear separation of co
 
 ## Changelog
 
-- July 01, 2025. Initial setup
+- July 01, 2025: Initial setup
+- July 01, 2025: Added comprehensive visual documentation with screenshot guides
+- July 01, 2025: Updated all documentation to correctly reference PostgreSQL database system
 
 ## User Preferences
 
