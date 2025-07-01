@@ -2,6 +2,8 @@
 
 This guide provides comprehensive instructions for deploying the AI-powered e-commerce platform in various environments.
 
+> 📖 **Visual Reference**: See [VISUAL_GUIDE.md](VISUAL_GUIDE.md) for screenshots and visual walkthroughs of all platform features.
+
 ## Prerequisites
 
 - Python 3.11+

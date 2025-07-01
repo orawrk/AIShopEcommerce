@@ -232,6 +232,16 @@ The admin dashboard provides comprehensive analytics:
 - ML model performance
 - Customer sentiment analysis
 
+## 📚 Documentation
+
+For comprehensive guides and visual walkthroughs:
+
+- [**Visual Guide**](VISUAL_GUIDE.md) - Complete visual walkthrough with screenshots
+- [**Deployment Guide**](DEPLOYMENT.md) - Complete deployment instructions
+- [**Project Structure**](PROJECT_STRUCTURE.md) - Detailed codebase organization
+- [**Real-time Retraining**](REAL_TIME_RETRAINING.md) - ML model retraining system
+- [**Contributing Guidelines**](CONTRIBUTING.md) - How to contribute to the project
+
 ## 🤝 Contributing
 
 1. Fork the repository
