@@ -16,7 +16,7 @@ The application follows a microservices architecture with clear separation of co
 ### Backend Layer
 - **FastAPI REST API** (port 8001): Main business logic and data operations
 - **ML API Service** (port 8000): Machine learning predictions and model management
-- **SQLite Database**: Product catalog, user data, orders, and behavior tracking
+- **PostgreSQL Database**: Product catalog, user data, orders, and behavior tracking
 
 ### AI/ML Layer
 - **OpenAI GPT Integration**: Customer support chatbot
@@ -91,7 +91,7 @@ The application follows a microservices architecture with clear separation of co
 - Health check endpoints for monitoring
 
 ### Key Configuration
-- Database: SQLite (dev) / MySQL (prod)
+- Database: PostgreSQL (production-ready)
 - API Ports: FastAPI (8001), ML API (8000), Streamlit (5000)
 - External APIs: OpenAI GPT-4o integration
 - Authentication: JWT tokens with bcrypt password hashing

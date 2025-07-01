@@ -72,7 +72,7 @@ git status
 git add .
 
 # Create initial commit
-git commit -m "Initial commit: AI-powered e-commerce platform with FastAPI, MySQL, and ML features"
+git commit -m "Initial commit: AI-powered e-commerce platform with FastAPI, PostgreSQL, and ML features"
 ```
 
 ### 4. Push to GitHub
@@ -90,7 +90,7 @@ After pushing, configure your repository:
 
 1. **About Section**: Add description and topics
    - Description: "AI-powered e-commerce platform with ChatGPT integration"
-   - Topics: `ai`, `ecommerce`, `fastapi`, `mysql`, `streamlit`, `machine-learning`, `chatgpt`
+   - Topics: `ai`, `ecommerce`, `fastapi`, `postgresql`, `streamlit`, `machine-learning`, `chatgpt`
 
 2. **README Display**: Ensure README.md displays properly
 

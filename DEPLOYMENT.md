@@ -7,7 +7,7 @@ This guide provides comprehensive instructions for deploying the AI-powered e-co
 ## Prerequisites
 
 - Python 3.11+
-- PostgreSQL 14+
+- PostgreSQL 14+ (database system)
 - Docker & Docker Compose (optional)
 - OpenAI API Key
 - Git

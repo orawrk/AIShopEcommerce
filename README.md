@@ -196,8 +196,8 @@ The platform is designed for easy deployment with multiple options:
 
 ### Local Development
 - Run each service independently
-- SQLite for quick testing
-- PostgreSQL for production-like environment
+- PostgreSQL database for production-ready development
+- Environment variables for configuration
 
 ### Docker Deployment
 - Multi-container setup with Docker Compose

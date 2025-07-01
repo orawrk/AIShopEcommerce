@@ -65,7 +65,7 @@ backend/
 
 ```
 ├── app.py                     # Main Streamlit application
-├── database.py                # Database utilities and SQLite operations
+├── database.py                # Database utilities and PostgreSQL operations
 ├── utils.py                   # Helper functions and utilities
 └── .streamlit/
     └── config.toml            # Streamlit server configuration
