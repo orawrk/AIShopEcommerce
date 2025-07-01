@@ -25,7 +25,8 @@ The main product catalog displays authentic brand products across multiple categ
 - Add to cart functionality
 - Real-time inventory tracking
 
-*Screenshot will be captured showing the product catalog interface*
+![Product Catalog](docs/images/01_product_catalog.png)
+*Product catalog displaying authentic brand products with filtering and search capabilities*
 
 ---
 
@@ -41,7 +42,8 @@ The shopping cart provides a comprehensive view of selected items with quantity 
 - Proceed to checkout option
 - Empty cart handling
 
-*Screenshot will be captured showing the shopping cart interface*
+![Shopping Cart](docs/images/03_shopping_cart.png)
+*Shopping cart interface with item management and total calculations*
 
 ---
 
@@ -56,7 +58,8 @@ The order management system displays order history with detailed tracking and st
 - Automatic status updates
 - Order filtering and search
 
-*Screenshot will be captured showing the order management interface*
+![Order Management](docs/images/10_order_management.png)
+*Order management interface showing order history and status tracking*
 
 ---
 
@@ -72,7 +75,11 @@ The AI-powered customer support chatbot provides intelligent assistance using Ch
 - Customer support automation
 - Sentiment analysis integration
 
-*Screenshot will be captured showing the AI chat interface*
+![AI Customer Support](docs/images/04_ai_chat.png)
+*AI-powered customer support interface with ChatGPT integration*
+
+![AI Chat Conversation](docs/images/05_ai_chat_conversation.png)
+*Active conversation showing AI responses and customer interactions*
 
 ---
 
@@ -88,7 +95,11 @@ The analytics dashboard provides comprehensive insights into user behavior and b
 - Performance charts and graphs
 - Real-time data updates
 
-*Screenshot will be captured showing the analytics dashboard*
+![Analytics Dashboard](docs/images/06_analytics_dashboard.png)
+*Comprehensive analytics dashboard with business metrics and user insights*
+
+![ML Predictions](docs/images/07_ml_predictions.png)
+*Machine learning predictions showing churn risk and spending forecasts*
 
 ---
 
