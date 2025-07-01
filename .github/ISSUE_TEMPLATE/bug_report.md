@@ -27,7 +27,7 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g. iOS]
 - Browser [e.g. chrome, safari]
 - Python Version [e.g. 3.11]
-- Database [e.g. MySQL 8.0]
+- Database [e.g. PostgreSQL 14]
 
 **Component**
 - [ ] FastAPI Backend

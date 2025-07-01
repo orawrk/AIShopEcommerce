@@ -102,9 +102,9 @@ For deployment platforms (Heroku, Railway, etc.), set these environment variable
 
 ```bash
 # Database Configuration
-DATABASE_URL=mysql+pymysql://user:password@host:port/database
+DATABASE_URL=postgresql://user:password@host:port/database
 DATABASE_HOST=localhost
-DATABASE_PORT=3306
+DATABASE_PORT=5432
 DATABASE_NAME=ecommerce
 DATABASE_USER=root
 DATABASE_PASSWORD=your_password
@@ -189,7 +189,7 @@ jobs:
 
 Update your GitHub repository description to:
 ```
-🛒 AI-powered e-commerce platform featuring FastAPI backend, MySQL database, Streamlit frontend, ChatGPT customer support, and machine learning analytics for user behavior prediction.
+🛒 AI-powered e-commerce platform featuring FastAPI backend, PostgreSQL database, Streamlit frontend, ChatGPT customer support, and machine learning analytics for user behavior prediction.
 ```
 
 ### Topics/Tags
@@ -198,7 +198,7 @@ Add these topics to your repository:
 - `artificial-intelligence`
 - `ecommerce`
 - `fastapi`
-- `mysql`
+- `postgresql`
 - `streamlit`
 - `machine-learning`
 - `chatgpt`

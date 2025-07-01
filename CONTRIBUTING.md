@@ -11,7 +11,7 @@ We are committed to providing a welcoming and inspiring community for all. Pleas
 ### Prerequisites
 
 - Python 3.11+
-- MySQL 8.0+
+- PostgreSQL 14+
 - Git
 - Docker (optional)
 
@@ -281,6 +281,6 @@ Contributors will be:
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Streamlit Documentation](https://docs.streamlit.io/)
 - [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
-- [MySQL Documentation](https://dev.mysql.com/doc/)
+- [PostgreSQL Documentation](https://postgresql.org/docs/)
 
 Thank you for contributing to the AI E-Commerce Platform!

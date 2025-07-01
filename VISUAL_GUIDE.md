@@ -126,7 +126,11 @@ The real-time model retraining system provides automated ML model updates with c
 - **Last Retrain**: Timestamp of most recent update
 - **Next Check**: Scheduled monitoring interval
 
-*Screenshot will be captured showing the retraining dashboard*
+![Real-time Retraining Dashboard](docs/images/08_retraining_dashboard.png)
+*Real-time model retraining monitoring and control interface*
+
+![Retraining Status](docs/images/09_retraining_status.png)
+*Detailed retraining system status and performance metrics*
 
 ---
 
@@ -142,7 +146,8 @@ The admin dashboard provides comprehensive management tools for platform adminis
 - Configuration options
 - Administrative controls
 
-*Screenshot will be captured showing the admin dashboard*
+![Admin Dashboard](docs/images/11_admin_dashboard.png)
+*Administrative dashboard for platform management and inventory control*
 
 ---
 
