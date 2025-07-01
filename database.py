@@ -153,11 +153,11 @@ def get_products(search_term=None, category=None, sort_by=None):
         params = []
         
         if search_term:
-            query += " AND (name LIKE ? OR description LIKE ?)"
+            query += " AND (name LIKE %s OR description LIKE %s)"
             params.extend([f"%{search_term}%", f"%{search_term}%"])
         
         if category:
-            query += " AND category = ?"
+            query += " AND category = %s"
             params.append(category)
         
         # Add sorting
@@ -188,7 +188,7 @@ def add_to_cart(user_id, product_id, quantity):
         
         # Check if item already exists in cart
         cursor.execute(
-            "SELECT id, quantity FROM cart WHERE user_id = ? AND product_id = ?",
+            "SELECT id, quantity FROM cart WHERE user_id = %s AND product_id = %s",
             (user_id, product_id)
         )
         existing_item = cursor.fetchone()
@@ -197,13 +197,13 @@ def add_to_cart(user_id, product_id, quantity):
             # Update quantity
             new_quantity = existing_item[1] + quantity
             cursor.execute(
-                "UPDATE cart SET quantity = ? WHERE id = ?",
+                "UPDATE cart SET quantity = %s WHERE id = %s",
                 (new_quantity, existing_item[0])
             )
         else:
             # Add new item
             cursor.execute(
-                "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)",
+                "INSERT INTO cart (user_id, product_id, quantity) VALUES (%s, %s, %s)",
                 (user_id, product_id, quantity)
             )
         
@@ -229,7 +229,7 @@ def get_cart_items(user_id):
             SELECT c.id, p.name, p.price, c.quantity, p.id
             FROM cart c
             JOIN products p ON c.product_id = p.id
-            WHERE c.user_id = ?
+            WHERE c.user_id = %s
         ''', (user_id,))
         
         items = cursor.fetchall()
@@ -250,7 +250,7 @@ def create_order(user_id, cart_items, total_amount):
         # Create order with timestamp
         current_time = datetime.now().isoformat()
         cursor.execute(
-            "INSERT INTO orders (user_id, total_amount, created_at) VALUES (?, ?, ?)",
+            "INSERT INTO orders (user_id, total_amount, created_at) VALUES (%s, %s, %s)",
             (user_id, total_amount, current_time)
         )
         order_id = cursor.lastrowid
@@ -259,18 +259,18 @@ def create_order(user_id, cart_items, total_amount):
         for item in cart_items:
             cart_id, product_name, price, quantity, product_id = item
             cursor.execute(
-                "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)",
+                "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (%s, %s, %s, %s)",
                 (order_id, product_id, quantity, price)
             )
             
             # Update product stock
             cursor.execute(
-                "UPDATE products SET stock = stock - ? WHERE id = ?",
+                "UPDATE products SET stock = stock - %s WHERE id = %s",
                 (quantity, product_id)
             )
         
         # Clear cart
-        cursor.execute("DELETE FROM cart WHERE user_id = ?", (user_id,))
+        cursor.execute("DELETE FROM cart WHERE user_id = %s", (user_id,))
         
         conn.commit()
         conn.close()
@@ -291,7 +291,7 @@ def get_user_orders(user_id):
         cursor = conn.cursor()
         
         cursor.execute(
-            "SELECT id, created_at, total_amount, status FROM orders WHERE user_id = ? ORDER BY created_at DESC",
+            "SELECT id, created_at, total_amount, status FROM orders WHERE user_id = %s ORDER BY created_at DESC",
             (user_id,)
         )
         
@@ -330,7 +330,7 @@ def update_order_status(order_id, new_status):
         cursor = conn.cursor()
         
         cursor.execute(
-            "UPDATE orders SET status = ? WHERE id = ?",
+            "UPDATE orders SET status = %s WHERE id = %s",
             (new_status, order_id)
         )
         
@@ -361,7 +361,7 @@ def auto_update_order_status():
         # Update status to Delivered
         for order_id, created_at in old_orders:
             cursor.execute(
-                "UPDATE orders SET status = 'Delivered' WHERE id = ?",
+                "UPDATE orders SET status = 'Delivered' WHERE id = %s",
                 (order_id,)
             )
         
@@ -381,7 +381,7 @@ def update_inventory(product_id, new_stock):
         cursor = conn.cursor()
         
         cursor.execute(
-            "UPDATE products SET stock = ? WHERE id = ?",
+            "UPDATE products SET stock = %s WHERE id = %s",
             (new_stock, product_id)
         )
         
@@ -401,7 +401,7 @@ def log_user_behavior(user_id, action, product_id=None, session_duration=None):
         cursor = conn.cursor()
         
         cursor.execute(
-            "INSERT INTO user_behavior (user_id, action, product_id, session_duration) VALUES (?, ?, ?, ?)",
+            "INSERT INTO user_behavior (user_id, action, product_id, session_duration) VALUES (%s, %s, %s, %s)",
             (user_id, action, product_id, session_duration)
         )
         

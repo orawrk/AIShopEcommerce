@@ -51,7 +51,7 @@ A comprehensive e-commerce platform built with FastAPI backend, Streamlit fronte
 
 ### Prerequisites
 - Python 3.11+
-- PostgreSQL
+- MySQL 8.0+
 - Docker (optional)
 - OpenAI API Key
 
@@ -70,7 +70,7 @@ pip install -r requirements.txt
 
 3. **Set up environment variables**
 ```bash
-export DATABASE_URL="postgresql://username:password@localhost:5432/ecommerce"
+export DATABASE_URL="mysql+pymysql://username:password@localhost:3306/ecommerce"
 export OPENAI_API_KEY="your-openai-api-key"
 ```
 
@@ -152,12 +152,12 @@ The platform includes intelligent customer support powered by OpenAI's GPT model
 
 ```bash
 # Database
-DATABASE_URL=postgresql://username:password@localhost:5432/ecommerce
-PGHOST=localhost
-PGPORT=5432
-PGDATABASE=ecommerce
-PGUSER=username
-PGPASSWORD=password
+DATABASE_URL=mysql+pymysql://username:password@localhost:3306/ecommerce
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_DATABASE=ecommerce
+MYSQL_USER=username
+MYSQL_PASSWORD=password
 
 # OpenAI
 OPENAI_API_KEY=your-openai-api-key
@@ -196,12 +196,12 @@ The platform is designed for easy deployment with multiple options:
 
 ### Local Development
 - Run each service independently
-- PostgreSQL database for production-ready development
+- MySQL database for production-ready development
 - Environment variables for configuration
 
 ### Docker Deployment
 - Multi-container setup with Docker Compose
-- Includes PostgreSQL, FastAPI, and Streamlit services
+- Includes MySQL, FastAPI, and Streamlit services
 - Production-ready configuration
 
 ### Cloud Deployment
