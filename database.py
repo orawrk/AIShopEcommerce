@@ -1,4 +1,4 @@
-import sqlite3
+import pymysql
 import pandas as pd
 import logging
 from datetime import datetime
@@ -6,11 +6,20 @@ import os
 
 logger = logging.getLogger(__name__)
 
-DATABASE_PATH = "ecommerce.db"
+# MySQL Database Configuration
+DATABASE_CONFIG = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'root',
+    'password': '',
+    'database': 'ecommerce',
+    'unix_socket': '/tmp/mysql.sock',
+    'charset': 'utf8mb4'
+}
 
 def get_connection():
     """Get database connection"""
-    return sqlite3.connect(DATABASE_PATH)
+    return pymysql.connect(**DATABASE_CONFIG)
 
 def init_database():
     """Initialize database with tables and sample data"""
@@ -21,32 +30,32 @@ def init_database():
         # Create tables
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS products (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
                 description TEXT,
-                price REAL NOT NULL,
-                category TEXT,
-                stock INTEGER DEFAULT 0,
-                rating REAL DEFAULT 0.0,
+                price DECIMAL(10,2) NOT NULL,
+                category VARCHAR(100),
+                stock INT DEFAULT 0,
+                rating DECIMAL(3,2) DEFAULT 0.0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE,
-                email TEXT UNIQUE,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(100) UNIQUE,
+                email VARCHAR(255) UNIQUE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS cart (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                product_id INTEGER,
-                quantity INTEGER DEFAULT 1,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT,
+                product_id INT,
+                quantity INT DEFAULT 1,
                 added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users (id),
                 FOREIGN KEY (product_id) REFERENCES products (id)
@@ -55,10 +64,10 @@ def init_database():
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS orders (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                total_amount REAL,
-                status TEXT DEFAULT 'Processing',
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT,
+                total_amount DECIMAL(10,2),
+                status VARCHAR(50) DEFAULT 'Processing',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users (id)
             )
@@ -66,11 +75,11 @@ def init_database():
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS order_items (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                order_id INTEGER,
-                product_id INTEGER,
-                quantity INTEGER,
-                price REAL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                order_id INT,
+                product_id INT,
+                quantity INT,
+                price DECIMAL(10,2),
                 FOREIGN KEY (order_id) REFERENCES orders (id),
                 FOREIGN KEY (product_id) REFERENCES products (id)
             )
@@ -78,11 +87,11 @@ def init_database():
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS user_behavior (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                action TEXT,
-                product_id INTEGER,
-                session_duration REAL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT,
+                action VARCHAR(100),
+                product_id INT,
+                session_duration DECIMAL(10,2),
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users (id),
                 FOREIGN KEY (product_id) REFERENCES products (id)
@@ -124,12 +133,12 @@ def populate_sample_data(conn):
     ]
     
     cursor.executemany(
-        "INSERT INTO products (name, description, price, category, stock, rating) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO products (name, description, price, category, stock, rating) VALUES (%s, %s, %s, %s, %s, %s)",
         products
     )
     
     # Sample user
-    cursor.execute("INSERT OR IGNORE INTO users (id, username, email) VALUES (1, 'demo_user', 'demo@example.com')")
+    cursor.execute("INSERT IGNORE INTO users (id, username, email) VALUES (%s, %s, %s)", (1, 'demo_user', 'demo@example.com'))
     
     conn.commit()
     logger.info("Sample data populated successfully")
