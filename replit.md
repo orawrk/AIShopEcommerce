@@ -16,7 +16,7 @@ The application follows a microservices architecture with clear separation of co
 ### Backend Layer
 - **FastAPI REST API** (port 8001): Main business logic and data operations
 - **ML API Service** (port 8000): Machine learning predictions and model management
-- **PostgreSQL Database**: Product catalog, user data, orders, and behavior tracking
+- **MySQL Database**: Product catalog, user data, orders, and behavior tracking
 
 ### AI/ML Layer
 - **OpenAI GPT Integration**: Customer support chatbot
@@ -64,7 +64,7 @@ The application follows a microservices architecture with clear separation of co
 - **FastAPI**: Modern Python web framework for REST APIs
 - **Streamlit**: Python-based web application framework
 - **SQLAlchemy**: ORM for database operations
-- **SQLite**: Development database (MySQL-compatible design)
+- **MySQL**: Production-ready relational database
 
 ### AI/ML Stack
 - **OpenAI API**: GPT-4o model for customer support
@@ -85,13 +85,13 @@ The application follows a microservices architecture with clear separation of co
 - Docker Compose for multi-service orchestration
 
 ### Production Considerations
-- MySQL/PostgreSQL database migration support
+- MySQL database with production-ready configuration
 - Environment-based configuration management
 - Containerized deployment ready
 - Health check endpoints for monitoring
 
 ### Key Configuration
-- Database: PostgreSQL (production-ready)
+- Database: MySQL 8.0+ (production-ready)
 - API Ports: FastAPI (8001), ML API (8000), Streamlit (5000)
 - External APIs: OpenAI GPT-4o integration
 - Authentication: JWT tokens with bcrypt password hashing
@@ -100,7 +100,7 @@ The application follows a microservices architecture with clear separation of co
 
 - July 01, 2025: Initial setup
 - July 01, 2025: Added comprehensive visual documentation with screenshot guides
-- July 01, 2025: Updated all documentation to correctly reference PostgreSQL database system
+- July 01, 2025: Updated all documentation and system to use MySQL database instead of PostgreSQL
 
 ## User Preferences
 

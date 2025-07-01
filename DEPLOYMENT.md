@@ -7,7 +7,7 @@ This guide provides comprehensive instructions for deploying the AI-powered e-co
 ## Prerequisites
 
 - Python 3.11+
-- PostgreSQL 14+ (database system)
+- MySQL 8.0+ (database system)
 - Docker & Docker Compose (optional)
 - OpenAI API Key
 - Git
@@ -29,14 +29,14 @@ pip install -r requirements.txt
 ```bash
 # PostgreSQL setup
 createdb ecommerce
-export DATABASE_URL="postgresql://username:password@localhost:5432/ecommerce"
+export DATABASE_URL="mysql+pymysql://username:password@localhost:3306/ecommerce"
 ```
 
 ### 4. Environment Variables
 Create `.env` file:
 ```bash
 # Database
-DATABASE_URL=postgresql://username:password@localhost:5432/ecommerce
+DATABASE_URL=mysql+pymysql://username:password@localhost:3306/ecommerce
 PGHOST=localhost
 PGPORT=5432
 PGDATABASE=ecommerce
