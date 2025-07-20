@@ -1,6 +1,19 @@
-# AI-Powered E-Commerce Platform
+# AI Shopping Website - Academic Project
 
-A comprehensive e-commerce platform built with FastAPI backend, Streamlit frontend, and AI-powered features including ChatGPT integration for customer support and machine learning models for user behavior prediction.
+A comprehensive AI-powered shopping website built to meet academic project requirements, featuring user authentication, product catalog, favorites system, order management, and ChatGPT integration with proper page structure.
+
+**📋 Complete Requirements Implementation:**
+- ✅ All required website pages (Main, Order, Favorites, Chat) 
+- ✅ User authentication with encrypted passwords
+- ✅ 20+ products with search and filtering
+- ✅ Favorites system with persistent storage  
+- ✅ TEMP/CLOSE order management workflow
+- ✅ Stock management and inventory control
+- ✅ ChatGPT integration with 5-prompt session limit
+- ✅ FastAPI + Streamlit + MySQL technology stack
+- ✅ Bonus: Machine Learning models for user behavior prediction
+
+**📖 Installation:** See [INSTALLATION.md](INSTALLATION.md) for complete setup instructions.
 
 ## 🚀 Features
 
