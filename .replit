@@ -18,10 +18,6 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Streamlit App"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
 args = "ML API"
 
 [[workflows.workflow.tasks]]
@@ -32,14 +28,9 @@ args = "FastAPI Backend"
 task = "workflow.run"
 args = "MySQL Database"
 
-[[workflows.workflow]]
-name = "Streamlit App"
-author = "agent"
-
 [[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "streamlit run app.py --server.port 5000"
-waitForPort = 5000
+task = "workflow.run"
+args = "Streamlit App"
 
 [[workflows.workflow]]
 name = "ML API"
@@ -67,6 +58,15 @@ author = "agent"
 task = "shell.exec"
 args = "mysqld --datadir=/tmp/mysql_data --socket=/tmp/mysql.sock --port=3306 --user=runner"
 waitForPort = 3306
+
+[[workflows.workflow]]
+name = "Streamlit App"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "streamlit run main_app.py --server.port 5000"
+waitForPort = 5000
 
 [[ports]]
 localPort = 3306
