@@ -43,7 +43,12 @@ cd ai-shopping-website
 
 ### Step 2: Install Dependencies
 
-**Method A: Install individual packages**
+**Method A: Install from dependencies file**
+```bash
+pip install -r dependencies.txt
+```
+
+**Method B: Install individual packages**
 ```bash
 pip install fastapi uvicorn streamlit pandas numpy scikit-learn
 pip install pymysql cryptography bcrypt python-jose passlib

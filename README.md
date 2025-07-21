@@ -62,6 +62,15 @@ A comprehensive AI-powered shopping website built to meet academic project requi
 
 ## 📦 Installation
 
+### Quick Setup
+```bash
+# Install dependencies
+pip install -r dependencies.txt
+
+# Start services
+streamlit run main_app.py --server.port 5000
+```
+
 ### Prerequisites
 - Python 3.11+
 - MySQL 8.0+
