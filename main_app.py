@@ -72,15 +72,15 @@ def login_page():
         with st.form("register_form"):
             col1, col2 = st.columns(2)
             with col1:
+                first_name = st.text_input("First Name*")
+                last_name = st.text_input("Last Name*")
                 username = st.text_input("Username*")
                 email = st.text_input("Email*")
-                password = st.text_input("Password*", type="password")
-                first_name = st.text_input("First Name*")
             with col2:
-                last_name = st.text_input("Last Name*")
                 phone = st.text_input("Phone*")
                 country = st.text_input("Country*")
                 city = st.text_input("City*")
+                password = st.text_input("Password*", type="password")
             
             submit = st.form_submit_button("Create Account")
             
