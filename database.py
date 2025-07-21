@@ -46,6 +46,12 @@ def init_database():
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(100) UNIQUE,
                 email VARCHAR(255) UNIQUE,
+                password_hash VARCHAR(255) NOT NULL,
+                first_name VARCHAR(100),
+                last_name VARCHAR(100),
+                phone VARCHAR(20),
+                country VARCHAR(100),
+                city VARCHAR(100),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
