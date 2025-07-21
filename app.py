@@ -15,7 +15,7 @@ Key Features:
 The application integrates with:
 - FastAPI backend (port 8001) for RESTful API operations
 - ML API (port 8000) for machine learning predictions
-- PostgreSQL database for data persistence
+- MySQL database for data persistence
 - OpenAI API for intelligent customer support
 
 Author: AI E-Commerce Platform Team
@@ -26,7 +26,7 @@ Port: 5000
 
 import streamlit as st
 import pandas as pd
-import sqlite3
+import pymysql
 import json
 import requests
 from datetime import datetime, timedelta

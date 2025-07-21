@@ -98,10 +98,10 @@ dmypy.json
 .pyre/
 
 # Database files
-*.db
-*.sqlite
-*.sqlite3
-ecommerce.db
+mysql_data/
+*.sql
+*.mysql
+backup_*.sql
 
 # Environment variables
 .env

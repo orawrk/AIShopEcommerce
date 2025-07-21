@@ -28,15 +28,15 @@ backend/
 ├── seed_data.py               # Database seeding with authentic products
 ├── config/                    # Configuration management
 │   ├── __init__.py
-│   ├── database.py            # Database connection and ORM setup
+│   ├── database.py            # Database connection setup (no ORM)
 │   └── settings.py            # Application settings and environment variables
-├── models/                    # SQLAlchemy database models
+├── models/                    # Database model definitions (no ORM)
 │   ├── __init__.py
-│   ├── base.py                # Base model with common fields
-│   ├── product.py             # Product model with authentic data structure
-│   ├── user.py                # User model for authentication
-│   ├── order.py               # Order and OrderItem models
-│   ├── cart.py                # Shopping cart model
+│   ├── base.py                # Base database operations
+│   ├── product.py             # Product data structure and queries
+│   ├── user.py                # User data structure and queries
+│   ├── order.py               # Order and OrderItem queries
+│   ├── cart.py                # Shopping cart operations
 │   ├── user_behavior.py       # User behavior tracking for ML
 │   └── enums.py               # Enumeration definitions
 ├── schemas/                   # Pydantic schemas for API validation
@@ -65,7 +65,7 @@ backend/
 
 ```
 ├── app.py                     # Main Streamlit application
-├── database.py                # Database utilities and PostgreSQL operations
+├── database.py                # Database utilities and MySQL operations
 ├── utils.py                   # Helper functions and utilities
 └── .streamlit/
     └── config.toml            # Streamlit server configuration
@@ -89,7 +89,7 @@ backend/
 ├── data/                      # Data files and samples
 │   ├── sample_products.csv    # Product catalog data
 │   └── user_behavior_training.csv  # ML training data
-└── ecommerce.db              # SQLite database (development)
+└── mysql_data/               # MySQL database files (development)
 ```
 
 ## Key Features by Component

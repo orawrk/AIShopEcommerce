@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-import sqlite3
+import pymysql
 import os
 
 logger = logging.getLogger(__name__)
@@ -146,24 +146,34 @@ def import_data_from_csv(filepath):
         logger.error(f"Import error: {e}")
         return pd.DataFrame()
 
-def backup_database(db_path="ecommerce.db", backup_dir="backups"):
-    """Create database backup"""
+def backup_database(backup_dir="backups"):
+    """Create MySQL database backup"""
     try:
         os.makedirs(backup_dir, exist_ok=True)
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        backup_filename = f"ecommerce_backup_{timestamp}.db"
+        backup_filename = f"ecommerce_backup_{timestamp}.sql"
         backup_path = os.path.join(backup_dir, backup_filename)
         
-        # Copy database file
-        import shutil
-        shutil.copy2(db_path, backup_path)
+        # MySQL dump command
+        import subprocess
+        dump_command = [
+            "mysqldump",
+            "--host=localhost",
+            "--port=3306",
+            "--socket=/tmp/mysql.sock",
+            "--user=runner",
+            "ecommerce"
+        ]
         
-        logger.info(f"Database backed up to {backup_path}")
+        with open(backup_path, 'w') as backup_file:
+            subprocess.run(dump_command, stdout=backup_file, check=True)
+        
+        logger.info(f"MySQL database backed up to {backup_path}")
         return backup_path
         
     except Exception as e:
-        logger.error(f"Backup error: {e}")
+        logger.error(f"MySQL backup error: {e}")
         return None
 
 def validate_product_data(product_data):
