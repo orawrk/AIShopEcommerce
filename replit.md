@@ -14,9 +14,9 @@ The application follows a microservices architecture with clear separation of co
 - **Customer Support Interface**: ChatGPT-powered chatbot integration
 
 ### Backend Layer
-- **FastAPI REST API** (port 8001): Main business logic and data operations
+- **FastAPI REST API** (port 8001): Main business logic and data operations (no SQLAlchemy)
 - **ML API Service** (port 8000): Machine learning predictions and model management
-- **MySQL Database**: Product catalog, user data, orders, and behavior tracking
+- **MySQL Database** (port 3306): Product catalog, user data, orders, and behavior tracking
 
 ### AI/ML Layer
 - **OpenAI GPT Integration**: Customer support chatbot
@@ -53,7 +53,7 @@ The application follows a microservices architecture with clear separation of co
 1. **Customer Interaction**: Users interact through Streamlit frontend
 2. **API Communication**: Frontend communicates with FastAPI backend via REST APIs
 3. **Data Processing**: Business services handle validation and processing
-4. **Database Operations**: SQLAlchemy ORM manages data persistence
+4. **Database Operations**: Direct MySQL connections manage data persistence
 5. **ML Integration**: User actions trigger behavior tracking for ML models
 6. **AI Response**: ChatGPT provides intelligent customer support
 7. **Analytics**: ML API provides predictive insights and automated retraining
@@ -63,7 +63,7 @@ The application follows a microservices architecture with clear separation of co
 ### Core Technologies
 - **FastAPI**: Modern Python web framework for REST APIs
 - **Streamlit**: Python-based web application framework
-- **SQLAlchemy**: ORM for database operations
+- **PyMySQL**: Direct MySQL database connections (no ORM)
 - **MySQL**: Production-ready relational database
 
 ### AI/ML Stack
@@ -76,11 +76,12 @@ The application follows a microservices architecture with clear separation of co
 - **Docker**: Containerization support
 - **Uvicorn**: ASGI server for FastAPI
 - **Pydantic**: Data validation and serialization
+- **PyMySQL**: Direct MySQL database driver
 
 ## Deployment Strategy
 
 ### Local Development
-- SQLite database for easy setup
+- MySQL database with direct connections
 - Environment variables for configuration
 - Docker Compose for multi-service orchestration
 
@@ -108,6 +109,11 @@ The application follows a microservices architecture with clear separation of co
   - Built TEMP/CLOSE order management workflow
   - Added 5-prompt ChatGPT session limits
   - Created comprehensive installation documentation
+- July 21, 2025: Simplified database architecture
+  - Removed SQLAlchemy dependency from backend
+  - Implemented direct MySQL connections using PyMySQL
+  - Fixed MySQL setup and database initialization
+  - All services now running without ORM complexity
 
 ## User Preferences
 

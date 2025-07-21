@@ -41,7 +41,7 @@ A comprehensive AI-powered shopping website built to meet academic project requi
 
 ### Backend
 - **FastAPI**: Modern Python web framework
-- **SQLAlchemy**: ORM for database operations
+- **PyMySQL**: Direct MySQL database connections (no ORM)
 - **MySQL**: Primary database
 - **Pydantic**: Data validation and serialization
 - **Uvicorn**: ASGI server

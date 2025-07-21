@@ -20,9 +20,9 @@ All academic project requirements are fully implemented:
 
 ## 🛠 Technology Stack
 
-- **Backend**: Python FastAPI framework
+- **Backend**: Python FastAPI framework (no SQLAlchemy/ORM)
 - **Frontend**: Python Streamlit  
-- **Database**: MySQL 8.0+
+- **Database**: MySQL 8.0+ with direct PyMySQL connections
 - **AI**: OpenAI ChatGPT API
 - **ML**: Scikit-learn for predictive models
 - **Container**: Docker support included
@@ -48,8 +48,10 @@ cd ai-shopping-website
 pip install fastapi uvicorn streamlit pandas numpy scikit-learn
 pip install pymysql cryptography bcrypt python-jose passlib
 pip install openai plotly requests flask python-multipart
-pip install pydantic pydantic-settings sqlalchemy
+pip install pydantic pydantic-settings
 ```
+
+Note: SQLAlchemy is not required - we use direct MySQL connections via PyMySQL.
 
 **Method B: Using requirements file**
 ```bash
