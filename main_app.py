@@ -82,7 +82,11 @@ def login_page():
                 city = st.text_input("City*")
                 password = st.text_input("Password*", type="password")
             
-            submit = st.form_submit_button("Create Account")
+            # Center the Create Account button
+            st.markdown("<br>", unsafe_allow_html=True)
+            col_left, col_center, col_right = st.columns([1, 2, 1])
+            with col_center:
+                submit = st.form_submit_button("Create Account", use_container_width=True)
             
             if submit:
                 if all([username, email, password, first_name, last_name, phone, country, city]):
