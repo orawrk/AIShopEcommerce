@@ -99,7 +99,7 @@ backend/
 - **User Authentication**: JWT-based authentication system
 - **Order Processing**: Complete order lifecycle management
 - **Shopping Cart**: Real-time cart operations
-- **Database Integration**: PostgreSQL with SQLAlchemy ORM
+- **Database Integration**: MySQL with direct PyMySQL connections
 - **API Documentation**: Automatic Swagger/OpenAPI documentation
 
 ### ML API (Port 8000)
@@ -137,11 +137,11 @@ The platform includes real products from major brands:
 
 ### External APIs
 - **OpenAI GPT**: Customer support chatbot with product context
-- **PostgreSQL**: Production database with authentic product data
+- **MySQL**: Production database with authentic product data
 - **FastAPI**: RESTful API backend with automatic documentation
 
 ### Internal Services
-- **Database Layer**: SQLAlchemy ORM with PostgreSQL
+- **Database Layer**: Direct MySQL connections with PyMySQL
 - **Business Logic**: Service layer pattern for clean architecture
 - **ML Pipeline**: Scikit-learn models with automated training
 - **Frontend**: Streamlit with real-time data integration
@@ -149,7 +149,7 @@ The platform includes real products from major brands:
 ## Development Workflow
 
 ### Local Development
-1. Start PostgreSQL database
+1. Start MySQL database
 2. Run FastAPI backend (port 8001)
 3. Start ML API service (port 8000)
 4. Launch Streamlit frontend (port 5000)
@@ -176,7 +176,7 @@ The platform includes real products from major brands:
 ### Backend
 - Database indexing for fast queries
 - Pagination for large datasets
-- Efficient SQLAlchemy queries
+- Efficient MySQL queries with PyMySQL
 
 ### Frontend
 - Streamlit caching for improved performance
