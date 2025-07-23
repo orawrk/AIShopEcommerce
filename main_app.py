@@ -184,33 +184,37 @@ def main_page():
                         st.write(f"⭐ Rating: {product['Rating']}/5")
                         st.write(f"🏷️ {product['Category']}")
                         
-                        # Action buttons
-                        btn_col1, btn_col2 = st.columns(2)
-                        with btn_col1:
-                            if st.button(f"🛒 Add to Order", key=f"add_{product['ID']}"):
-                                if product['Stock'] > 0:
-                                    success, message = add_item_to_temp_order(st.session_state.user_id, product['ID'])
+                        # Action buttons - only show if logged in
+                        if st.session_state.logged_in:
+                            btn_col1, btn_col2 = st.columns(2)
+                            with btn_col1:
+                                if st.button(f"🛒 Add to Order", key=f"add_{product['ID']}"):
+                                    if product['Stock'] > 0:
+                                        success, message = add_item_to_temp_order(st.session_state.user_id, product['ID'])
+                                        if success:
+                                            st.success(message)
+                                            st.rerun()
+                                        else:
+                                            st.error(message)
+                                    else:
+                                        st.error("Out of stock!")
+                            
+                            with btn_col2:
+                                is_fav = is_favorite(st.session_state.user_id, product['ID'])
+                                if st.button(f"{'💖' if is_fav else '🤍'} Fav", key=f"fav_{product['ID']}"):
+                                    if is_fav:
+                                        success, message = remove_from_favorites(st.session_state.user_id, product['ID'])
+                                    else:
+                                        success, message = add_to_favorites(st.session_state.user_id, product['ID'])
+                                    
                                     if success:
                                         st.success(message)
                                         st.rerun()
                                     else:
                                         st.error(message)
-                                else:
-                                    st.error("Out of stock!")
-                        
-                        with btn_col2:
-                            is_fav = is_favorite(st.session_state.user_id, product['ID'])
-                            if st.button(f"{'💖' if is_fav else '🤍'} Fav", key=f"fav_{product['ID']}"):
-                                if is_fav:
-                                    success, message = remove_from_favorites(st.session_state.user_id, product['ID'])
-                                else:
-                                    success, message = add_to_favorites(st.session_state.user_id, product['ID'])
-                                
-                                if success:
-                                    st.success(message)
-                                    st.rerun()
-                                else:
-                                    st.error(message)
+                        else:
+                            # Show login prompt for non-logged users
+                            st.info("🔐 Login to add to cart and favorites")
                         
                         st.markdown("---")
 
@@ -454,27 +458,136 @@ def navigation():
                 st.rerun()
 
 def main():
-    """Main application"""
-    # User menu in sidebar
-    user_menu()
+    """Main application with enhanced navigation"""
+    # Enhanced Navigation Header
+    st.markdown("---")
     
-    # Check if user is logged in
-    if not st.session_state.logged_in:
+    # Top navigation bar with login/register buttons
+    nav_col1, nav_col2, nav_col3 = st.columns([6, 1, 1])
+    
+    with nav_col1:
+        # Main navigation buttons
+        if st.session_state.logged_in:
+            # Navigation for logged in users
+            col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
+            
+            with col1:
+                if st.button("🏠 Main", key="nav_main"):
+                    st.session_state.current_page = "Main"
+                    st.rerun()
+            
+            with col2:
+                if st.button("📦 Orders", key="nav_orders"):
+                    st.session_state.current_page = "Orders" 
+                    st.rerun()
+            
+            with col3:
+                if st.button("💖 Favorites", key="nav_favorites"):
+                    st.session_state.current_page = "Favorites"
+                    st.rerun()
+            
+            with col4:
+                if st.button("💬 Chat", key="nav_chat"):
+                    st.session_state.current_page = "Chat"
+                    st.rerun()
+        else:
+            # Simple navigation for non-logged users
+            if st.button("🏠 Browse Products", key="nav_main_guest"):
+                st.session_state.current_page = "Main"
+                st.rerun()
+    
+    with nav_col2:
+        if not st.session_state.logged_in:
+            if st.button("🔐 Login", key="show_login"):
+                st.session_state.current_page = "Login"
+                st.rerun()
+        else:
+            st.write(f"👋 {st.session_state.user_info['first_name']}")
+    
+    with nav_col3:
+        if not st.session_state.logged_in:
+            if st.button("📝 Register", key="show_register"):
+                st.session_state.current_page = "Register"
+                st.rerun()
+        else:
+            if st.button("🚪 Logout", key="nav_logout"):
+                # Reset session state
+                st.session_state.logged_in = False
+                st.session_state.user_id = None
+                st.session_state.user_info = None
+                st.session_state.current_page = "Main"
+                st.session_state.chat_prompts_count = 0
+                st.session_state.chat_history = []
+                st.rerun()
+    
+    st.markdown("---")
+    
+    # User menu in sidebar for logged in users
+    if st.session_state.logged_in:
+        user_menu()
+    
+    # Page routing - Always show content based on current page
+    if st.session_state.current_page == "Login":
         login_page()
-        return
-    
-    # Navigation
-    navigation()
-    
-    # Page routing
-    if st.session_state.current_page == "Main":
+    elif st.session_state.current_page == "Register":
+        register_page()
+    elif st.session_state.current_page == "Main":
         main_page()
     elif st.session_state.current_page == "Orders":
-        order_page()
+        if st.session_state.logged_in:
+            order_page()
+        else:
+            st.warning("Please login to view your orders")
+            login_page()
     elif st.session_state.current_page == "Favorites":
-        favorites_page()
+        if st.session_state.logged_in:
+            favorites_page()
+        else:
+            st.warning("Please login to view your favorites")
+            login_page()
     elif st.session_state.current_page == "Chat":
-        chat_page()
+        if st.session_state.logged_in:
+            chat_page()
+        else:
+            st.warning("Please login to use the chat assistant")
+            login_page()
+
+def register_page():
+    """Dedicated registration page"""
+    st.title("📝 Create New Account")
+    
+    with st.form("register_form"):
+        col1, col2 = st.columns(2)
+        with col1:
+            first_name = st.text_input("First Name")
+            last_name = st.text_input("Last Name")
+            username = st.text_input("Username")
+            password = st.text_input("Password", type="password")
+        
+        with col2:
+            email = st.text_input("Email")
+            phone = st.text_input("Phone")
+            country = st.text_input("Country")
+            city = st.text_input("City")
+        
+        submit = st.form_submit_button("Create Account", type="primary")
+        
+        if submit:
+            if all([first_name, last_name, username, password, email, phone, country, city]):
+                success, message = create_user(
+                    first_name, last_name, username, password, 
+                    email, phone, country, city
+                )
+                if success:
+                    st.success(message)
+                    st.info("Account created successfully! You can now login.")
+                    if st.button("Go to Login"):
+                        st.session_state.current_page = "Login"
+                        st.rerun()
+                else:
+                    st.error(message)
+            else:
+                st.error("Please fill in all fields")
 
 if __name__ == "__main__":
     main()
