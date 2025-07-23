@@ -1,6 +1,9 @@
 # AI-Powered E-Commerce Platform
 ## Complete Implementation Presentation
 
+**Created by: Ora Weinstein**  
+**Year: 2025**
+
 ---
 
 ## 📋 Table of Contents
@@ -409,3 +412,8 @@ For technical questions or demonstrations:
 ---
 
 *This presentation showcases a complete AI-powered e-commerce platform built with modern technologies and best practices. The system demonstrates the successful integration of artificial intelligence, machine learning, and traditional e-commerce functionality in a scalable, user-friendly application.*
+
+---
+
+**Created by: Ora Weinstein**  
+**© 2025 - All Rights Reserved**

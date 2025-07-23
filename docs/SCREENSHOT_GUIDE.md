@@ -1,6 +1,8 @@
 # Screenshot Capture Guide
 ## AI Shopping Platform Documentation
 
+**Created by: Ora Weinstein | 2025**
+
 ### Quick Setup for Screenshots
 
 1. **Ensure Services are Running**:
