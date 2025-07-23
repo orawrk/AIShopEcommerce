@@ -50,7 +50,7 @@ An intelligent e-commerce platform that leverages AI technologies to create a pe
 - **FastAPI**: High-performance API server
 - **Flask**: ML model serving
 - **MySQL**: Primary database
-- **SQLAlchemy**: Database ORM
+- **PyMySQL**: Database connectivity
 
 ### AI/ML Components
 - **OpenAI GPT**: Intelligent chatbot
