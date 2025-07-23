@@ -6,7 +6,7 @@ from openai import OpenAI
 logger = logging.getLogger(__name__)
 
 # Initialize OpenAI client
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "your-openai-api-key-here")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY","")
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 def get_chatbot_response(user_message, user_id=None):
@@ -52,7 +52,11 @@ def get_chatbot_response(user_message, user_id=None):
             temperature=0.7
         )
         
-        ai_response = response.choices[0].message.content.strip()
+        ai_response = response.choices[0].message.content
+        if ai_response:
+            ai_response = ai_response.strip()
+        else:
+            ai_response = "I apologize, but I'm having trouble processing your request right now. Please try again in a moment."
         
         logger.info(f"Chatbot response generated for user {user_id}")
         return ai_response
@@ -106,7 +110,11 @@ def get_product_recommendation_response(user_preferences, user_id=None):
             temperature=0.8
         )
         
-        return response.choices[0].message.content.strip()
+        content = response.choices[0].message.content
+        if content:
+            return content.strip()
+        else:
+            return "I'd be happy to help you find the perfect products! Could you tell me more about what you're looking for?"
         
     except Exception as e:
         logger.error(f"Product recommendation error: {e}")
@@ -139,8 +147,12 @@ def analyze_customer_sentiment(message):
             max_tokens=200
         )
         
-        result = json.loads(response.choices[0].message.content)
-        return result
+        content = response.choices[0].message.content
+        if content:
+            result = json.loads(content)
+            return result
+        else:
+            return {"sentiment": "neutral", "confidence": 0.5, "urgency": "medium"}
         
     except Exception as e:
         logger.error(f"Sentiment analysis error: {e}")
@@ -172,7 +184,11 @@ def generate_personalized_email(user_id, email_type="welcome"):
             temperature=0.7
         )
         
-        return response.choices[0].message.content.strip()
+        content = response.choices[0].message.content
+        if content:
+            return content.strip()
+        else:
+            return "Thank you for choosing our platform! We're excited to serve you."
         
     except Exception as e:
         logger.error(f"Email generation error: {e}")
