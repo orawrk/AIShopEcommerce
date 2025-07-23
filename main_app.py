@@ -10,7 +10,7 @@ import hashlib
 
 # Import custom modules
 from database import get_products, get_connection
-from auth import create_user, authenticate_user, get_user_by_id, delete_user_account
+from auth import create_user, authenticate_user, get_user_by_id, delete_user_account, load_users_from_file_to_db
 from favorites import add_to_favorites, remove_from_favorites, get_user_favorites, is_favorite
 from order_management import (
     add_item_to_temp_order, get_temp_order, complete_order, 
@@ -24,6 +24,14 @@ st.set_page_config(
     page_icon="🛒",
     layout="wide"
 )
+
+# Load users from file to database on startup
+if 'users_loaded' not in st.session_state:
+    try:
+        load_users_from_file_to_db()
+        st.session_state.users_loaded = True
+    except Exception as e:
+        st.session_state.users_loaded = False
 
 # Initialize session state
 if 'logged_in' not in st.session_state:
