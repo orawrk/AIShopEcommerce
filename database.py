@@ -139,7 +139,7 @@ def populate_sample_data(conn):
     ]
     
     cursor.executemany(
-        "INSERT INTO products (name, description, price, category, stock, rating) VALUES (%s, %s, %s, %s, %s, %s)",
+        "INSERT INTO products (name, description, price, category, stock_quantity, rating) VALUES (%s, %s, %s, %s, %s, %s)",
         products
     )
     
@@ -155,7 +155,7 @@ def get_products(search_term=None, category=None, sort_by=None):
         conn = get_connection()
         cursor = conn.cursor()
         
-        query = "SELECT id, name, description, price, category, stock, rating FROM products WHERE 1=1"
+        query = "SELECT id, name, description, price, category, stock_quantity, rating FROM products WHERE 1=1"
         params = []
         
         if search_term:

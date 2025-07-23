@@ -51,7 +51,7 @@ def add_item_to_temp_order(user_id, product_id, quantity=1):
             return False, "Could not create order"
         
         # Get product price and check stock
-        cursor.execute("SELECT price, stock FROM products WHERE id = %s", (product_id,))
+        cursor.execute("SELECT price, stock_quantity FROM products WHERE id = %s", (product_id,))
         product = cursor.fetchone()
         if not product:
             cursor.close()
@@ -166,7 +166,7 @@ def get_temp_order(user_id):
         
         # Get order items
         cursor.execute("""
-            SELECT oi.product_id, p.name, oi.quantity, oi.price, p.stock
+            SELECT oi.product_id, p.name, oi.quantity, oi.price, p.stock_quantity
             FROM order_items oi
             JOIN products p ON oi.product_id = p.id
             WHERE oi.order_id = %s
@@ -211,7 +211,7 @@ def complete_order(user_id, shipping_address):
                 conn.close()
                 return False, f"Not enough {name} in stock"
             
-            cursor.execute("UPDATE products SET stock = stock - %s WHERE id = %s", (quantity, product_id))
+            cursor.execute("UPDATE products SET stock_quantity = stock_quantity - %s WHERE id = %s", (quantity, product_id))
         
         # Update order status and shipping address
         cursor.execute("""
