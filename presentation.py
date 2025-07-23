@@ -126,9 +126,9 @@ def create_presentation():
         <h4>🗄️ Database</h4>
         <ul>
         <li>MySQL Database</li>
-        <li>Relational Schema</li>
+        <li>PyMySQL Driver</li>
+        <li>Direct SQL Queries</li>
         <li>ACID Compliance</li>
-        <li>Data Integrity</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -280,10 +280,10 @@ def create_presentation():
     st.markdown('<h2 class="section-header">🔧 Technology Stack</h2>', unsafe_allow_html=True)
     
     tech_data = {
-        'Component': ['Frontend', 'Backend API', 'Database', 'ML Engine', 'AI Support'],
-        'Technology': ['Streamlit', 'FastAPI', 'MySQL', 'Scikit-learn', 'OpenAI GPT'],
-        'Port': ['5000', '8001', '3306', '8000', 'API'],
-        'Status': ['✅ Running', '✅ Running', '✅ Running', '✅ Running', '✅ Integrated']
+        'Component': ['Frontend', 'Backend API', 'Database', 'DB Driver', 'ML Engine', 'AI Support'],
+        'Technology': ['Streamlit', 'FastAPI', 'MySQL', 'PyMySQL', 'Scikit-learn', 'OpenAI GPT'],
+        'Port': ['5000', '8001', '3306', 'N/A', '8000', 'API'],
+        'Status': ['✅ Running', '✅ Running', '✅ Running', '✅ Active', '✅ Running', '✅ Integrated']
     }
     
     tech_df = pd.DataFrame(tech_data)

@@ -155,3 +155,14 @@ After capturing screenshots:
    - Export as PDF for easy sharing
 
 This guide ensures comprehensive visual documentation of the AI Shopping Platform for presentations and demonstrations.
+
+## Technology Documentation
+
+The platform uses the following verified technology stack:
+- **Frontend**: Streamlit web application (port 5000)
+- **Backend**: FastAPI REST API (port 8001)  
+- **Database**: MySQL with PyMySQL driver (port 3306)
+- **ML API**: Flask-based ML service (port 8000)
+- **AI Integration**: OpenAI GPT for customer support
+
+This direct MySQL implementation provides better performance and simpler maintenance compared to ORM solutions.
