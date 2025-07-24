@@ -441,3 +441,65 @@ def get_user_behavior_data():
     except Exception as e:
         logger.error(f"Error fetching behavior data: {e}")
         return pd.DataFrame()
+
+def update_user_profile(user_id, first_name, last_name, email, phone, street_address, city, state_province, postal_code, country):
+    """Update user profile information including address"""
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            UPDATE users 
+            SET first_name = %s, last_name = %s, email = %s, phone = %s, 
+                street_address = %s, city = %s, state_province = %s, 
+                postal_code = %s, country = %s
+            WHERE id = %s
+        """, (first_name, last_name, email, phone, street_address, city, 
+              state_province, postal_code, country, user_id))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+        
+        return True, "Profile updated successfully"
+        
+    except Exception as e:
+        logger.error(f"Error updating user profile: {e}")
+        return False, f"Error updating profile: {str(e)}"
+
+def get_user_full_profile(user_id):
+    """Get complete user profile including address"""
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT id, username, email, first_name, last_name, phone, 
+                   street_address, city, state_province, postal_code, country
+            FROM users WHERE id = %s
+        """, (user_id,))
+        
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        
+        if user:
+            return {
+                'id': user[0],
+                'username': user[1],
+                'email': user[2],
+                'first_name': user[3],
+                'last_name': user[4],
+                'phone': user[5] or '',
+                'street_address': user[6] or '',
+                'city': user[7] or '',
+                'state_province': user[8] or '',
+                'postal_code': user[9] or '',
+                'country': user[10] or ''
+            }
+        
+        return None
+        
+    except Exception as e:
+        logger.error(f"Error fetching user profile: {e}")
+        return None

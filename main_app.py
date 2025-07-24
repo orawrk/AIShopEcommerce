@@ -9,7 +9,7 @@ from datetime import datetime
 import hashlib
 
 # Import custom modules
-from database import get_products, get_connection
+from database import get_products, get_connection, update_user_profile, get_user_full_profile
 from auth import create_user, authenticate_user, get_user_by_id, delete_user_account, load_users_from_file_to_db
 from favorites import add_to_favorites, remove_from_favorites, get_user_favorites, is_favorite
 from order_management import (
@@ -315,9 +315,21 @@ def order_page():
             
             # Shipping address and purchase
             st.markdown("**Complete Your Order:**")
+            
+            # Try to get saved address
+            user_profile = get_user_full_profile(st.session_state.user_id)
+            saved_address = ""
+            if user_profile and any([user_profile.get('street_address'), user_profile.get('city')]):
+                saved_address = f"""{user_profile['street_address']}
+{user_profile['city']}, {user_profile['state_province']} {user_profile['postal_code']}
+{user_profile['country']}"""
+            
             shipping_address = st.text_area("Shipping Address", 
-                                           value=temp_order.get('shipping_address', ''),
+                                           value=temp_order.get('shipping_address', saved_address),
                                            placeholder="Enter your full shipping address...")
+            
+            if saved_address and not temp_order.get('shipping_address'):
+                st.info("✅ Using your saved address from profile. You can edit it above if needed.")
             
             if st.button("💳 Purchase Order", type="primary"):
                 if shipping_address.strip():
@@ -476,7 +488,7 @@ def main():
         # Main navigation buttons
         if st.session_state.logged_in:
             # Navigation for logged in users
-            col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
+            col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 2, 2])
             
             with col1:
                 if st.button("🏠 Main", key="nav_main"):
@@ -494,6 +506,11 @@ def main():
                     st.rerun()
             
             with col4:
+                if st.button("👤 Profile", key="nav_profile"):
+                    st.session_state.current_page = "Profile"
+                    st.rerun()
+            
+            with col5:
                 if st.button("💬 Chat", key="nav_chat"):
                     st.session_state.current_page = "Chat"
                     st.rerun()
@@ -558,6 +575,12 @@ def main():
         else:
             st.warning("Please login to use the chat assistant")
             login_page()
+    elif st.session_state.current_page == "Profile":
+        if st.session_state.logged_in:
+            profile_page()
+        else:
+            st.warning("Please login to view your profile")
+            login_page()
 
 def register_page():
     """Dedicated registration page"""
@@ -595,6 +618,93 @@ def register_page():
                     st.error(message)
             else:
                 st.error("Please fill in all fields")
+
+def profile_page():
+    """User profile and address management page"""
+    st.title("👤 My Profile & Address")
+    
+    # Get current user profile
+    user_profile = get_user_full_profile(st.session_state.user_id)
+    
+    if not user_profile:
+        st.error("Could not load user profile")
+        return
+    
+    st.markdown("### Personal Information")
+    
+    with st.form("profile_form"):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            first_name = st.text_input("First Name", value=user_profile['first_name'])
+            last_name = st.text_input("Last Name", value=user_profile['last_name'])
+            email = st.text_input("Email", value=user_profile['email'])
+            phone = st.text_input("Phone", value=user_profile['phone'])
+        
+        with col2:
+            username_display = st.text_input("Username", value=user_profile['username'], disabled=True, help="Username cannot be changed")
+            
+        st.markdown("### 🏠 Address Information")
+        
+        col3, col4 = st.columns(2)
+        
+        with col3:
+            street_address = st.text_area("Street Address", value=user_profile['street_address'], 
+                                        placeholder="123 Main Street, Apt 4B")
+            city = st.text_input("City", value=user_profile['city'])
+            postal_code = st.text_input("Postal/ZIP Code", value=user_profile['postal_code'])
+        
+        with col4:
+            state_province = st.text_input("State/Province", value=user_profile['state_province'])
+            country = st.text_input("Country", value=user_profile['country'])
+        
+        st.markdown("---")
+        
+        # Center the update button
+        col_left, col_center, col_right = st.columns([1, 2, 1])
+        with col_center:
+            update_button = st.form_submit_button("💾 Update Profile", use_container_width=True, type="primary")
+        
+        if update_button:
+            if all([first_name.strip(), last_name.strip(), email.strip()]):
+                success, message = update_user_profile(
+                    st.session_state.user_id,
+                    first_name.strip(),
+                    last_name.strip(), 
+                    email.strip(),
+                    phone.strip(),
+                    street_address.strip(),
+                    city.strip(),
+                    state_province.strip(),
+                    postal_code.strip(),
+                    country.strip()
+                )
+                
+                if success:
+                    st.success(message)
+                    # Update session state with new info
+                    st.session_state.user_info['first_name'] = first_name.strip()
+                    st.session_state.user_info['last_name'] = last_name.strip()
+                    st.session_state.user_info['email'] = email.strip()
+                    st.rerun()
+                else:
+                    st.error(message)
+            else:
+                st.error("Please fill in required fields: First Name, Last Name, and Email")
+    
+    # Display current saved address summary
+    if any([user_profile['street_address'], user_profile['city'], user_profile['country']]):
+        st.markdown("### 📬 Your Saved Address")
+        st.info(f"""
+        **{user_profile['first_name']} {user_profile['last_name']}**  
+        {user_profile['street_address']}  
+        {user_profile['city']}, {user_profile['state_province']} {user_profile['postal_code']}  
+        {user_profile['country']}  
+        Phone: {user_profile['phone']}
+        """)
+        st.success("💡 This address will be automatically used for your orders!")
+    else:
+        st.warning("⚠️ No address saved yet. Add your address above to make checkout faster!")
 
 if __name__ == "__main__":
     main()
