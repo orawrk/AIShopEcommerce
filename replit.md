@@ -114,6 +114,13 @@ The application follows a microservices architecture with clear separation of co
   - Implemented direct MySQL connections using PyMySQL
   - Fixed MySQL setup and database initialization
   - All services now running without ORM complexity
+- July 24, 2025: Fixed application visibility and user experience
+  - Resolved database schema inconsistencies (password_hash column)
+  - Fixed main page to show products immediately without login requirement
+  - Added prominent Login/Register buttons in navigation header
+  - Created 20 sample products across 5 categories for testing
+  - Verified all authentication and product display functionality
+  - Application now properly displays products first with easy access to login
 
 ## User Preferences
 
