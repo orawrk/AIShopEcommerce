@@ -108,9 +108,13 @@ def login_page():
                     st.error("Please fill in all required fields")
 
 def main_page():
-    """Main page with product catalog and search"""
+    """Main page with product catalog and search - accessible to all users"""
     st.title("🛒 AI Shopping Website")
     st.markdown("### Welcome to our AI-powered shopping platform!")
+    
+    # Show login prompt for guest users
+    if not st.session_state.logged_in:
+        st.info("💡 Login to access your cart, favorites, and order history!")
     
     # Search area
     st.markdown("#### 🔍 Search Products")
