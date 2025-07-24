@@ -427,7 +427,7 @@ def user_menu():
     with st.sidebar:
         if st.session_state.logged_in:
             user = st.session_state.user_info
-            st.success(f"👤 Welcome, {user['first_name']} {user['last_name']}")
+            st.success(f"👤 Welcome, {user['first_name']}")
             st.write(f"**Username:** {user['username']}")
             
             if st.button("🚪 Logout"):
@@ -696,7 +696,7 @@ def profile_page():
     if any([user_profile['street_address'], user_profile['city'], user_profile['country']]):
         st.markdown("### 📬 Your Saved Address")
         st.info(f"""
-        **{user_profile['first_name']} {user_profile['last_name']}**  
+        **{user_profile['first_name']}**  
         {user_profile['street_address']}  
         {user_profile['city']}, {user_profile['state_province']} {user_profile['postal_code']}  
         {user_profile['country']}  
