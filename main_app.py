@@ -14,7 +14,8 @@ from auth import create_user, authenticate_user, get_user_by_id, delete_user_acc
 from favorites import add_to_favorites, remove_from_favorites, get_user_favorites, is_favorite
 from order_management import (
     add_item_to_temp_order, get_temp_order, complete_order, 
-    get_user_orders, get_order_items, remove_item_from_temp_order
+    get_user_orders, get_order_items, remove_item_from_temp_order,
+    get_combined_user_orders, load_user_orders_from_file
 )
 from chatbot import get_chatbot_response
 
@@ -69,7 +70,20 @@ def login_page():
                         st.session_state.user_info = user
                         st.session_state.current_page = "Main"  # Redirect to main page
                         st.session_state.chat_prompts_count = 0  # Reset chat prompts
-                        st.success("Login successful! Redirecting to products...")
+                        
+                        # Load user's order history on login
+                        try:
+                            order_history = load_user_orders_from_file(user['id'])
+                            st.session_state.order_history = order_history
+                            order_count = len([o for o in order_history if o.get('status') == 'CLOSE'])
+                            if order_count > 0:
+                                st.success(f"Login successful! Found {order_count} completed orders. Redirecting to products...")
+                            else:
+                                st.success("Login successful! Redirecting to products...")
+                        except Exception as e:
+                            st.session_state.order_history = []
+                            st.success("Login successful! Redirecting to products...")
+                        
                         st.rerun()
                     else:
                         st.error("Invalid username or password")
@@ -283,8 +297,8 @@ def order_page():
     # Get temp order
     temp_order = get_temp_order(st.session_state.user_id)
     
-    # Get all orders
-    all_orders = get_user_orders(st.session_state.user_id)
+    # Get all orders (combined from database and file)
+    all_orders = get_combined_user_orders(st.session_state.user_id)
     
     if temp_order:
         st.markdown("### 🚧 Current Order (TEMP)")
@@ -349,26 +363,48 @@ def order_page():
     
     # Display order history
     st.markdown("### 📋 Order History")
-    closed_orders = [order for order in all_orders if order[2] == 'CLOSE']
+    closed_orders = [order for order in all_orders if order.get('status') == 'CLOSE']
     
     if not closed_orders:
         st.info("No completed orders yet")
     else:
+        st.success(f"Found {len(closed_orders)} completed orders")
         for order in closed_orders:
-            order_id, total_amount, status, shipping_address, created_at = order
+            order_id = order.get('order_id')
+            total_amount = order.get('total_amount', 0)
+            status = order.get('status', 'CLOSE')
+            shipping_address = order.get('shipping_address', 'N/A')
+            created_at = order.get('completed_at', order.get('created_at', 'N/A'))
             
-            with st.expander(f"Order #{order_id} - ${total_amount:.2f} ({created_at})"):
+            with st.expander(f"Order #{order_id} - ${total_amount:.2f} ({created_at[:10] if created_at != 'N/A' else 'N/A'})"):
                 st.write(f"**Status:** {status}")
                 st.write(f"**Total:** ${total_amount:.2f}")
                 st.write(f"**Shipping Address:** {shipping_address}")
                 st.write(f"**Date:** {created_at}")
                 
                 # Get order items
-                items = get_order_items(order_id)
-                if items:
+                if 'items' in order and order['items']:
                     st.markdown("**Items:**")
-                    items_df = pd.DataFrame(items, columns=['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal'])
+                    items_data = []
+                    for item in order['items']:
+                        items_data.append([
+                            item.get('product_id', 'N/A'),
+                            item.get('name', 'N/A'),
+                            item.get('quantity', 0),
+                            f"${item.get('price', 0):.2f}",
+                            f"${item.get('subtotal', 0):.2f}"
+                        ])
+                    items_df = pd.DataFrame(items_data, columns=['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal'])
                     st.dataframe(items_df, hide_index=True)
+                else:
+                    # Fallback to database lookup
+                    items = get_order_items(order_id)
+                    if items:
+                        st.markdown("**Items:**")
+                        items_df = pd.DataFrame(items, columns=['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal'])
+                        st.dataframe(items_df, hide_index=True)
+                    else:
+                        st.info("No items found for this order")
 
 def chat_page():
     """ChatGPT assistant page with 5 prompt limit"""
@@ -436,6 +472,7 @@ def user_menu():
                 st.session_state.user_info = None
                 st.session_state.chat_prompts_count = 0
                 st.session_state.chat_history = []
+                st.session_state.order_history = []  # Clear order history on logout
                 st.rerun()
             
             if st.button("🗑️ Delete Account", type="secondary"):
@@ -446,6 +483,7 @@ def user_menu():
                         st.session_state.logged_in = False
                         st.session_state.user_id = None
                         st.session_state.user_info = None
+                        st.session_state.order_history = []  # Clear order history on account deletion
                         st.rerun()
                     else:
                         st.error(message)
