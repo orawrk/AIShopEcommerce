@@ -493,7 +493,6 @@ def user_menu():
     with st.sidebar:
         if st.session_state.logged_in:
             user = st.session_state.user_info
-            st.success(f"👤 Welcome, {user['first_name']}")
             st.write(f"**Username:** {user['username']}")
             
             if st.button("🚪 Logout"):
