@@ -121,6 +121,10 @@ The application follows a microservices architecture with clear separation of co
   - Created 20 sample products across 5 categories for testing
   - Verified all authentication and product display functionality
   - Application now properly displays products first with easy access to login
+  - Enhanced Delete Account functionality with proper two-step confirmation process
+  - Added welcome message display with user's first name in sidebar
+  - Fixed database connection issues and ensured reliable MySQL connectivity
+  - Improved user interface flow with better error handling and confirmation dialogs
 
 ## User Preferences
 

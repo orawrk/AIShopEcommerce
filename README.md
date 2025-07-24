@@ -43,6 +43,8 @@ This platform combines modern web technologies with AI capabilities to deliver:
 - Password hashing with bcrypt
 - Profile management and account controls
 - Session-based authentication
+- Enhanced account deletion with two-step confirmation
+- Welcome messages with personalized user greetings
 
 ### 🛍️ Product Catalog
 - Comprehensive product browsing interface
