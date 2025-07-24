@@ -556,7 +556,7 @@ def main():
         # Main navigation buttons
         if st.session_state.logged_in:
             # Navigation for logged in users
-            col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 2, 2])
+            col1, col2, col3, col4 = st.columns([2, 2, 2, 2])
             
             with col1:
                 if st.button("🏠 Main", key="nav_main"):
@@ -574,11 +574,6 @@ def main():
                     st.rerun()
             
             with col4:
-                if st.button("👤 Profile", key="nav_profile"):
-                    st.session_state.current_page = "Profile"
-                    st.rerun()
-            
-            with col5:
                 if st.button("💬 Chat", key="nav_chat"):
                     st.session_state.current_page = "Chat"
                     st.rerun()

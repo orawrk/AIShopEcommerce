@@ -1,0 +1,22 @@
+{
+  "orders": {
+    "2": [
+      {
+        "order_id": 3,
+        "total_amount": 49.99,
+        "shipping_address": "Raanana\nIsrael",
+        "completed_at": "2025-07-24T02:32:07.375143",
+        "status": "CLOSE",
+        "items": [
+          {
+            "product_id": 16,
+            "name": "Backpack",
+            "quantity": 1,
+            "price": 49.99,
+            "subtotal": 49.99
+          }
+        ]
+      }
+    ]
+  }
+}
