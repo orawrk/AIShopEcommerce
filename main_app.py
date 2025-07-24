@@ -504,18 +504,39 @@ def user_menu():
                 st.session_state.order_history = []  # Clear order history on logout
                 st.rerun()
             
+            # Delete account section
+            st.markdown("---")
             if st.button("🗑️ Delete Account", type="secondary"):
-                if st.checkbox("I confirm I want to delete my account permanently"):
-                    success, message = delete_user_account(st.session_state.user_id)
-                    if success:
-                        st.success(message)
-                        st.session_state.logged_in = False
-                        st.session_state.user_id = None
-                        st.session_state.user_info = None
-                        st.session_state.order_history = []  # Clear order history on account deletion
+                st.session_state.show_delete_confirm = True
+                st.rerun()
+            
+            # Show confirmation if delete was clicked
+            if st.session_state.get('show_delete_confirm', False):
+                st.warning("⚠️ This action cannot be undone!")
+                confirm_delete = st.checkbox("I confirm I want to delete my account permanently")
+                
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("✅ Confirm Delete", type="primary"):
+                        if confirm_delete:
+                            success, message = delete_user_account(st.session_state.user_id)
+                            if success:
+                                st.success(message)
+                                st.session_state.logged_in = False
+                                st.session_state.user_id = None
+                                st.session_state.user_info = None
+                                st.session_state.order_history = []
+                                st.session_state.show_delete_confirm = False
+                                st.rerun()
+                            else:
+                                st.error(message)
+                        else:
+                            st.error("Please check the confirmation box first")
+                
+                with col2:
+                    if st.button("❌ Cancel"):
+                        st.session_state.show_delete_confirm = False
                         st.rerun()
-                    else:
-                        st.error(message)
 
 def navigation():
     """Page navigation"""
