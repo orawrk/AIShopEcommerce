@@ -306,6 +306,28 @@ def order_page():
         st.write(f"📅 Created: {temp_order['created_at']}")
         st.write(f"💰 Total: ${temp_order['total_amount']:.2f}")
         
+        # Display shipping address from profile
+        user_profile = get_user_full_profile(st.session_state.user_id)
+        if user_profile and any([user_profile.get('street_address'), user_profile.get('city'), user_profile.get('country')]):
+            st.markdown("**📦 Shipping Address:**")
+            address_parts = []
+            if user_profile.get('street_address'):
+                address_parts.append(user_profile['street_address'])
+            if user_profile.get('city'):
+                city_state = user_profile['city']
+                if user_profile.get('state_province'):
+                    city_state += f", {user_profile['state_province']}"
+                if user_profile.get('postal_code'):
+                    city_state += f" {user_profile['postal_code']}"
+                address_parts.append(city_state)
+            if user_profile.get('country'):
+                address_parts.append(user_profile['country'])
+            
+            if address_parts:
+                st.info(" | ".join(address_parts))
+        else:
+            st.warning("⚠️ No shipping address saved - Please update your profile before completing order")
+        
         # Display items in temp order
         if temp_order['items']:
             st.markdown("**Items in Order:**")
