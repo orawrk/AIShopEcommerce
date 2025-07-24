@@ -352,32 +352,40 @@ def order_page():
             # Shipping address and purchase
             st.markdown("**Complete Your Order:**")
             
-            # Try to get saved address
+            # Automatically use saved address from profile
             user_profile = get_user_full_profile(st.session_state.user_id)
             saved_address = ""
             if user_profile and any([user_profile.get('street_address'), user_profile.get('city')]):
-                saved_address = f"""{user_profile['street_address']}
-{user_profile['city']}, {user_profile['state_province']} {user_profile['postal_code']}
-{user_profile['country']}"""
+                address_parts = []
+                if user_profile.get('street_address'):
+                    address_parts.append(user_profile['street_address'])
+                if user_profile.get('city'):
+                    city_part = user_profile['city']
+                    if user_profile.get('state_province'):
+                        city_part += f", {user_profile['state_province']}"
+                    if user_profile.get('postal_code'):
+                        city_part += f" {user_profile['postal_code']}"
+                    address_parts.append(city_part)
+                if user_profile.get('country'):
+                    address_parts.append(user_profile['country'])
+                saved_address = "\n".join(address_parts)
             
-            shipping_address = st.text_area("Shipping Address", 
-                                           value=temp_order.get('shipping_address', saved_address),
-                                           placeholder="Enter your full shipping address...")
-            
-            if saved_address and not temp_order.get('shipping_address'):
-                st.info("✅ Using your saved address from profile. You can edit it above if needed.")
-            
-            if st.button("💳 Purchase Order", type="primary"):
-                if shipping_address.strip():
-                    success, message = complete_order(st.session_state.user_id, shipping_address)
+            if saved_address:
+                st.markdown("**📦 Shipping Address (from your profile):**")
+                st.info(saved_address)
+                
+                if st.button("💳 Purchase Order", type="primary"):
+                    success, message = complete_order(st.session_state.user_id, saved_address)
                     if success:
                         st.success(message)
                         st.balloons()
                         st.rerun()
                     else:
                         st.error(message)
-                else:
-                    st.error("Please enter a shipping address")
+            else:
+                st.warning("⚠️ No complete address saved in profile")
+                st.markdown("Please go to your **Profile** page to save your shipping address first.")
+                st.info("💡 Go to Profile → Update your address information → Return here to complete your order")
         else:
             st.info("Your order is empty")
         
@@ -725,6 +733,14 @@ def profile_page():
         with col_center:
             update_button = st.form_submit_button("💾 Update Profile", use_container_width=True, type="primary")
         
+        # Address validation info
+        address_complete = all([street_address.strip(), city.strip(), country.strip()])
+        if address_complete:
+            st.success("✅ Complete shipping address - Ready for orders!")
+        else:
+            st.warning("⚠️ Please complete your address for order shipping")
+            st.info("Required: Street Address, City, and Country")
+        
         if update_button:
             if all([first_name.strip(), last_name.strip(), email.strip()]):
                 success, message = update_user_profile(
@@ -746,6 +762,11 @@ def profile_page():
                     st.session_state.user_info['first_name'] = first_name.strip()
                     st.session_state.user_info['last_name'] = last_name.strip()
                     st.session_state.user_info['email'] = email.strip()
+                    
+                    # Show address completion status
+                    if all([street_address.strip(), city.strip(), country.strip()]):
+                        st.success("🏠 Your shipping address is now complete and ready for orders!")
+                    
                     st.rerun()
                 else:
                     st.error(message)
