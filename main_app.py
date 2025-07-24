@@ -67,8 +67,9 @@ def login_page():
                         st.session_state.logged_in = True
                         st.session_state.user_id = user['id']
                         st.session_state.user_info = user
+                        st.session_state.current_page = "Main"  # Redirect to main page
                         st.session_state.chat_prompts_count = 0  # Reset chat prompts
-                        st.success("Login successful!")
+                        st.success("Login successful! Redirecting to products...")
                         st.rerun()
                     else:
                         st.error("Invalid username or password")
@@ -101,7 +102,9 @@ def login_page():
                     success, message = create_user(username, email, password, first_name, last_name, phone, country, city)
                     if success:
                         st.success(message)
-                        st.info("You can now login with your credentials")
+                        st.info("Account created! You can now login with your credentials")
+                        # Auto-switch to login tab after successful registration
+                        st.session_state.current_page = "Login"
                     else:
                         st.error(message)
                 else:
