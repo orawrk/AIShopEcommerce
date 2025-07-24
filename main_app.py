@@ -492,6 +492,9 @@ def user_menu():
     """User menu in sidebar"""
     with st.sidebar:
         if st.session_state.logged_in:
+            user = st.session_state.user_info
+            st.success(f"👤 Welcome, {user['first_name']}")
+            
             if st.button("🚪 Logout"):
                 st.session_state.logged_in = False
                 st.session_state.user_id = None
