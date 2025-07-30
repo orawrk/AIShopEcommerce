@@ -749,7 +749,11 @@ def profile_page():
             update_button = st.form_submit_button("💾 Update Profile", use_container_width=True, type="primary")
         
         # Address validation info
-        address_complete = all([street_address.strip(), city.strip(), country.strip()])
+        address_complete = all([
+            street_address and street_address.strip(), 
+            city and city.strip(), 
+            country and country.strip()
+        ])
         if address_complete:
             st.success("✅ Complete shipping address - Ready for orders!")
         else:
@@ -757,29 +761,37 @@ def profile_page():
             st.info("Required: Street Address, City, and Country")
         
         if update_button:
-            if all([first_name.strip(), last_name.strip(), email.strip()]):
+            if all([
+                first_name and first_name.strip(), 
+                last_name and last_name.strip(), 
+                email and email.strip()
+            ]):
                 success, message = update_user_profile(
                     st.session_state.user_id,
-                    first_name.strip(),
-                    last_name.strip(), 
-                    email.strip(),
-                    phone.strip(),
-                    street_address.strip(),
-                    city.strip(),
-                    state_province.strip(),
-                    postal_code.strip(),
-                    country.strip()
+                    first_name.strip() if first_name else "",
+                    last_name.strip() if last_name else "", 
+                    email.strip() if email else "",
+                    phone.strip() if phone else "",
+                    street_address.strip() if street_address else "",
+                    city.strip() if city else "",
+                    state_province.strip() if state_province else "",
+                    postal_code.strip() if postal_code else "",
+                    country.strip() if country else ""
                 )
                 
                 if success:
                     st.success(message)
                     # Update session state with new info
-                    st.session_state.user_info['first_name'] = first_name.strip()
-                    st.session_state.user_info['last_name'] = last_name.strip()
-                    st.session_state.user_info['email'] = email.strip()
+                    st.session_state.user_info['first_name'] = first_name.strip() if first_name else ""
+                    st.session_state.user_info['last_name'] = last_name.strip() if last_name else ""
+                    st.session_state.user_info['email'] = email.strip() if email else ""
                     
                     # Show address completion status
-                    if all([street_address.strip(), city.strip(), country.strip()]):
+                    if all([
+                        street_address and street_address.strip(), 
+                        city and city.strip(), 
+                        country and country.strip()
+                    ]):
                         st.success("🏠 Your shipping address is now complete and ready for orders!")
                     
                     st.rerun()
