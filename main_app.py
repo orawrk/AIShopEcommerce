@@ -154,7 +154,13 @@ def main_page():
         return
     
     # Convert to DataFrame for easier filtering
-    df = pd.DataFrame(products, columns=['ID', 'Name', 'Description', 'Price', 'Category', 'Stock', 'Rating'])
+    if products:
+        df = pd.DataFrame(products)
+        if len(df.columns) >= 7:
+            df.columns = ['ID', 'Name', 'Description', 'Price', 'Category', 'Stock', 'Rating']
+        else:
+            st.error("Product data format error")
+            return
     
     # Apply filters
     filtered_df = df.copy()
@@ -186,7 +192,7 @@ def main_page():
             filtered_df = filtered_df[filtered_df['Stock'] > 50]
     
     # Display results
-    if filtered_df.empty:
+    if len(filtered_df) == 0:
         st.warning("🔍 No products found matching your search criteria.")
         st.info("Try adjusting your search terms or filters.")
     else:
@@ -196,7 +202,8 @@ def main_page():
         cols_per_row = 3
         for i in range(0, len(filtered_df), cols_per_row):
             cols = st.columns(cols_per_row)
-            for j, (idx, product) in enumerate(filtered_df.iloc[i:i+cols_per_row].iterrows()):
+            current_batch = filtered_df[i:i+cols_per_row]
+            for j, (idx, product) in enumerate(current_batch.iterrows()):
                 if j < len(cols):
                     with cols[j]:
                         st.markdown(f"**{product['Name']}**")
@@ -252,12 +259,19 @@ def favorites_page():
     st.markdown(f"#### You have {len(favorites)} favorite items")
     
     # Display favorites in same format as main page
-    df = pd.DataFrame(favorites, columns=['ID', 'Name', 'Description', 'Price', 'Category', 'Stock', 'Rating'])
+    if favorites:
+        df = pd.DataFrame(favorites)
+        if len(df.columns) >= 7:
+            df.columns = ['ID', 'Name', 'Description', 'Price', 'Category', 'Stock', 'Rating']
+        else:
+            st.error("Favorites data format error")
+            return
     
     cols_per_row = 3
     for i in range(0, len(df), cols_per_row):
         cols = st.columns(cols_per_row)
-        for j, (idx, product) in enumerate(df.iloc[i:i+cols_per_row].iterrows()):
+        current_batch = df[i:i+cols_per_row]
+        for j, (idx, product) in enumerate(current_batch.iterrows()):
             if j < len(cols):
                 with cols[j]:
                     st.markdown(f"**{product['Name']}**")
@@ -424,14 +438,24 @@ def order_page():
                             f"${item.get('price', 0):.2f}",
                             f"${item.get('subtotal', 0):.2f}"
                         ])
-                    items_df = pd.DataFrame(items_data, columns=['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal'])
+                    if items_data:
+                        items_df = pd.DataFrame(items_data)
+                        if len(items_df.columns) >= 5:
+                            items_df.columns = ['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal']
+                        else:
+                            items_df = pd.DataFrame(items_data)
                     st.dataframe(items_df, hide_index=True)
                 else:
                     # Fallback to database lookup
                     items = get_order_items(order_id)
                     if items:
                         st.markdown("**Items:**")
-                        items_df = pd.DataFrame(items, columns=['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal'])
+                        if items:
+                            items_df = pd.DataFrame(items)
+                            if len(items_df.columns) >= 5:
+                                items_df.columns = ['Product ID', 'Name', 'Quantity', 'Price', 'Subtotal']
+                            else:
+                                items_df = pd.DataFrame(items)
                         st.dataframe(items_df, hide_index=True)
                     else:
                         st.info("No items found for this order")
