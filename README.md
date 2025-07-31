@@ -1,7 +1,8 @@
 # AI-Powered E-Commerce Platform
 
 **Created by: Ora Weinstein | 2025**
-email: oraw@gmail.com
+
+***email: orawrk@gmail.com***
 
 A comprehensive AI-powered e-commerce platform that leverages artificial intelligence and machine learning to create personalized, dynamic, and engaging shopping experiences.
 
